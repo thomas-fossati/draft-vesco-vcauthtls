@@ -51,62 +51,71 @@ This document defines a new certificate type and a new extension to exchange Ver
 
 W3C defined VC
 
+How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
-# VC Certificate type
+# Extensions
 
-~~~
-opaque ASN.1Cert<1..2^24-1>;
+## VC Certificate Type
 
-struct {
-   select(certificate_type){
-      // RawPublicKey certificate type defined in RFC 7250
-      case RawPublicKey:
-         opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
+The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. Using separate extensions allows for mixed deployments where the client and server can use certificates of different types. 
 
-      // X.509 certificate defined in RFC 5246
-      case X.509:
-         ASN.1Cert certificate_list<0..2^24-1>;
+   /* Managed by IANA */
+   enum {
+      X509(0),
+      RawPublicKey(2),
+      VC(224),
+      (255)
+   } CertificateType;
 
-      // The new certificate type definied in this document
-      case VC:
-         opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
+   struct {
+      select(certificate_type){
+         // The new certificate type defined in this document
+         case VC:
+            opaque cert_data<1..2^24-1>;
 
-      // Additional certificate type based on
-      // "TLS Certificate Types" subregistry
-   };
-} Certificate;
-~~~
+         // RawPublicKey certificate type defined in RFC 7250
+         case RawPublicKey:
+            opaque ASN1_subjectPublicKeyInfo<1..2^24-1>;
 
-TLS Certificate types (IANA)
+         // X.509 certificate defined in RFC 5246
+         case X509:
+            opaque cert_data<1..2^24-1>;
+
+         // Additional certificate type based on
+         // "TLS Certificate Types" subregistry
+      };
+   } Certificate;
+
+# did_methods extension
+
+   /* Managed by IANA */
+   enum {
+      iota(0),
+      ..
+      (65535)
+   } DIDMethod
+
+   struct {
+      DIDMethod did_methods<2..2^16-2>
+   } DIDMethodList
+
+   [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods)
+
+did_methods extension could be sent only in ClientHello and CertificateRequest messages.
+
+# TLS Client and Server Handshake
 
 
-| value | name | recommended | Reference | comment |
-|-------|------|-------------|-----------|---------|
-| 4 | Verifiable Credential | | This document | |
-
-
-# Structure of the FOOBAR Extensions
-
-## ssi_parameters
-
-## foobar1
-
-## foobar2
-
-# Possibly the new Messages
-
-# TLS Client and Server Handshake Behavior
 
 ## ClientHello
 
 ## CertificateRequest
 
 ## Certificate
-
-## CertificateVerify
 
 # An alternative Design / Design Consideration
 

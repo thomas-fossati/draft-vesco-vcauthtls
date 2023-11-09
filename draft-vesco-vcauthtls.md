@@ -42,17 +42,14 @@ normative:
 
 informative:
 
-
 --- abstract
-
-TODO Abstract
-
+This document defines a new certificate type and a new extension to exchange Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type allows VC to be used for authentication purpose.
 
 --- middle
 
 # Introduction
 
-
+W3C defined VC
 
 # Conventions and Definitions
 

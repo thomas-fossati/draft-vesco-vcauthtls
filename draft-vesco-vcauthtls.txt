@@ -68,28 +68,29 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Structure of the FOOBAR Extensions
-     3.1.  ssi_parameters
-     3.2.  foobar1
-     3.3.  foobar2
-   4.  Possibly the new Messages
-   5.  TLS Client and Server Handshake Behavior
-     5.1.  ClientHello
-     5.2.  CertificateRequest
-     5.3.  Certificate
-     5.4.  CertificateVerify
-   6.  An alternative Design / Design Consideration
-   7.  Examples
-     7.1.  TLS Server Uses a VP
-     7.2.  TLS Client and Server Use VPs
-     7.3.  TLS Client Uses VP and Server Uses Certificate
-     7.4.  TLS Client Uses Certificate and Server Uses VP
-     7.5.  Fallback to Traditional Handshake
-     7.6.  Empty intersection of Client and Server DID Methods
-     7.7.  TLS Server Enforces SSI Server Authentication
-   8.  Security Considerations
-   9.  IANA Considerations
-   10. Normative References
+   3.  VC Certificate type
+   4.  Structure of the FOOBAR Extensions
+     4.1.  ssi_parameters
+     4.2.  foobar1
+     4.3.  foobar2
+   5.  Possibly the new Messages
+   6.  TLS Client and Server Handshake Behavior
+     6.1.  ClientHello
+     6.2.  CertificateRequest
+     6.3.  Certificate
+     6.4.  CertificateVerify
+   7.  An alternative Design / Design Consideration
+   8.  Examples
+     8.1.  TLS Server Uses a VP
+     8.2.  TLS Client and Server Use VPs
+     8.3.  TLS Client Uses VP and Server Uses Certificate
+     8.4.  TLS Client Uses Certificate and Server Uses VP
+     8.5.  Fallback to Traditional Handshake
+     8.6.  Empty intersection of Client and Server DID Methods
+     8.7.  TLS Server Enforces SSI Server Authentication
+   9.  Security Considerations
+   10. IANA Considerations
+   11. Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -105,68 +106,102 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Structure of the FOOBAR Extensions
+3.  VC Certificate type
 
-3.1.  ssi_parameters
+   opaque ASN.1Cert<1..2^24-1>;
 
-3.2.  foobar1
+   struct {
+      select(certificate_type){
+         // RawPublicKey certificate type defined in RFC 7250
+         case RawPublicKey:
+            opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
 
-3.3.  foobar2
+         // X.509 certificate defined in RFC 5246
+         case X.509:
+            ASN.1Cert certificate_list<0..2^24-1>;
 
-4.  Possibly the new Messages
+         // The new certificate type definied in this document
+         case VC:
+            opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
 
-5.  TLS Client and Server Handshake Behavior
+         // Additional certificate type based on
+         // "TLS Certificate Types" subregistry
+      };
+   } Certificate;
 
-5.1.  ClientHello
+   TLS Certificate types (IANA)
 
-5.2.  CertificateRequest
+   +=======+=======================+=============+===========+=========+
+   | value | name                  | recommended | Reference | comment |
+   +=======+=======================+=============+===========+=========+
+   | 4     | Verifiable            |             | This      |         |
+   |       | Credential            |             | document  |         |
+   +-------+-----------------------+-------------+-----------+---------+
 
-5.3.  Certificate
+                                  Table 1
 
-5.4.  CertificateVerify
+4.  Structure of the FOOBAR Extensions
 
-6.  An alternative Design / Design Consideration
+4.1.  ssi_parameters
 
-7.  Examples
+4.2.  foobar1
 
-7.1.  TLS Server Uses a VP
+4.3.  foobar2
 
-7.2.  TLS Client and Server Use VPs
+5.  Possibly the new Messages
 
-7.3.  TLS Client Uses VP and Server Uses Certificate
+6.  TLS Client and Server Handshake Behavior
 
-7.4.  TLS Client Uses Certificate and Server Uses VP
+6.1.  ClientHello
+
+6.2.  CertificateRequest
+
+6.3.  Certificate
+
+6.4.  CertificateVerify
+
+7.  An alternative Design / Design Consideration
+
+8.  Examples
+
+8.1.  TLS Server Uses a VP
+
+8.2.  TLS Client and Server Use VPs
+
+8.3.  TLS Client Uses VP and Server Uses Certificate
+
+8.4.  TLS Client Uses Certificate and Server Uses VP
 
    it happens when the server does not send ssi_paramters extension in
    certificate request or it does but the client does not have a DID in
    the list of supported DLT (i.e.  DID Methods) by the server
 
-7.5.  Fallback to Traditional Handshake
+8.5.  Fallback to Traditional Handshake
 
    server ignores ssi_parameters extension in the clientHello
 
-7.6.  Empty intersection of Client and Server DID Methods
+8.6.  Empty intersection of Client and Server DID Methods
 
    HelloRetryRequest + foobar extension server replies with the list of
    its DID Methods, this implies that the server has a DID stored in
    each of the DLT of the listed DID Methods.
 
-7.7.  TLS Server Enforces SSI Server Authentication
+8.7.  TLS Server Enforces SSI Server Authentication
 
    server enforces SSI client authentication (no fall back bu enforce
    SSI to the client)
 
    HelloRetryRequest
 
-8.  Security Considerations
+9.  Security Considerations
 
    TODO Security
 
-9.  IANA Considerations
+10.  IANA Considerations
 
    This document has no IANA actions.
 
-10.  Normative References
+11.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,

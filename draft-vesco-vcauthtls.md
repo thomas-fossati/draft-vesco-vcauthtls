@@ -62,6 +62,7 @@ How to create identity in SSI and how to verify the VP (in HS sections describe 
 ## VC Certificate Type
 
 The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. Using separate extensions allows for mixed deployments where the client and server can use certificates of different types.
+
 ~~~
    /* Managed by IANA */
    enum {
@@ -104,9 +105,9 @@ The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7
    struct {
       DIDMethod did_methods<2..2^16-2>
    } DIDMethodList
-
-   [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods)
 ~~~
+
+[did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods)
 
 did_methods extension could be sent only in ClientHello and CertificateRequest messages.
 

@@ -3,7 +3,7 @@ title: "TODO - Your title"
 abbrev: "TODO - Abbreviation"
 category: info
 
-docname: draft-vesco-perugini-tuveri-vcauthtls-latest
+docname: draft-vesco-vcauthtls-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:

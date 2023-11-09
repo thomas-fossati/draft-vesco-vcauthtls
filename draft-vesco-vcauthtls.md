@@ -55,6 +55,39 @@ W3C defined VC
 
 {::boilerplate bcp14-tagged}
 
+# VC Certificate type
+
+~~~
+opaque ASN.1Cert<1..2^24-1>;
+
+struct {
+   select(certificate_type){
+      // RawPublicKey certificate type defined in RFC 7250
+      case RawPublicKey:
+         opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
+
+      // X.509 certificate defined in RFC 5246
+      case X.509:
+         ASN.1Cert certificate_list<0..2^24-1>;
+
+      // The new certificate type definied in this document
+      case VC:
+         opaque ASN.1_subjectPublicKeyInfo<1..2^24-1>;
+
+      // Additional certificate type based on
+      // "TLS Certificate Types" subregistry
+   };
+} Certificate;
+~~~
+
+TLS Certificate types (IANA)
+
+
+| value | name | recommended | Reference | comment |
+|-------|------|-------------|-----------|---------|
+| 4 | Verifiable Credential | | This document | |
+
+
 # Structure of the FOOBAR Extensions
 
 ## ssi_parameters

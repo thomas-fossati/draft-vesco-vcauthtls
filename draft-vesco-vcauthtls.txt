@@ -91,6 +91,8 @@ Table of Contents
    9.  Security Considerations
    10. IANA Considerations
    11. Normative References
+   12. Informative References
+   13. Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -202,6 +204,17 @@ Table of Contents
    This document has no IANA actions.
 
 11.  Normative References
+
+   [DID] W3C, Decentralized Identifiers (DIDs) v1.0.  Core architecture,
+   data model, and representations.  W3C Recommendation, 2022.
+   https://www.w3.org/TR/did-core/
+
+   [VC] W3C, Verifiable Credentials Data Model v2.0.  W3C
+   Recommendation, 2023. https://www.w3.org/TR/vc-data-model-2.0/
+
+12.  Informative References
+
+13.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,

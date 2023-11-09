@@ -49,9 +49,9 @@ This document defines a new certificate type and a new extension to exchange Ver
 
 # Introduction
 
-W3C defined VC and DID
+<!--W3C defined VC and DID
 
-How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).
+How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).-->
 
 # Conventions and Definitions
 
@@ -136,41 +136,30 @@ Server --> DLT_B : DID Resolve
 @enduml
 ~~~
 
-
-## ClientHello
-
-## CertificateRequest
-
-## Certificate
-
-# An alternative Design / Design Consideration
-
 # Examples
 
-## TLS Server Uses a VP
+## TLS Server Uses a VC
 
-## TLS Client and Server Use VPs
+## TLS Client and Server Use VCs
 
-## TLS Client Uses VP and Server Uses Certificate
+## TLS Client Uses VC and Server Uses Certificate
 
-## TLS Client Uses Certificate and Server Uses VP
+## TLS Client Uses Certificate and Server Uses VC
 
-it happens when the server does not send ssi_paramters extension in certificate request or it does but the client does not have a DID in the list of supported DLT (i.e. DID Methods) by the server
+<!--it happens when the server does not send ssi_paramters extension in certificate request or it does but the client does not have a DID in the list of supported DLT (i.e. DID Methods) by the server-->
 
 ## Fallback to Traditional Handshake
 
-server ignores ssi_parameters extension in the clientHello
+<!--server ignores ssi_parameters extension in the clientHello-->
 
 ## Empty intersection of Client and Server DID Methods
 
-HelloRetryRequest + foobar extension
-server replies with the list of its DID Methods, this implies that the server has a DID stored in each of the DLT of the listed DID Methods.
+<!--HelloRetryRequest + foobar extension
+server replies with the list of its DID Methods, this implies that the server has a DID stored in each of the DLT of the listed DID Methods.-->
 
 ## TLS Server Enforces SSI Server Authentication
 
-server enforces SSI client authentication (no fall back bu enforce SSI to the client)
-
-HelloRetryRequest
+<!--server enforces SSI client authentication (no fall back bu enforce SSI to the client) HelloRetryRequest -->
 
 # Security Considerations
 
@@ -178,7 +167,7 @@ TODO Security
 
 # IANA Considerations
 
-This document has no IANA actions.
+<!--This document has no IANA actions.-->
 
 # Normative References
 

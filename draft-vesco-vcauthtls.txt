@@ -15,7 +15,10 @@ Expires: 12 May 2024                                           N. Tuveri
 
 Abstract
 
-   TODO Abstract
+   This document defines a new certificate type and a new extension to
+   exchange Verifiable Credentials (VCs) in Transport Layer Security
+   (TLS).  The new certificate type allows VC to be used for
+   authentication purpose.
 
 About This Document
 
@@ -91,6 +94,8 @@ Table of Contents
    Authors' Addresses
 
 1.  Introduction
+
+   W3C defined VC
 
 2.  Conventions and Definitions
 

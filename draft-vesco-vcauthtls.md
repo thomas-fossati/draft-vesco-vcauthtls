@@ -150,11 +150,17 @@ HelloRetryRequest
 
 TODO Security
 
-
 # IANA Considerations
 
 This document has no IANA actions.
 
+# Normative References
+
+[DID] W3C, Decentralized Identifiers (DIDs) v1.0. Core architecture, data model, and representations. W3C Recommendation, 2022. https://www.w3.org/TR/did-core/
+
+[VC] W3C, Verifiable Credentials Data Model v2.0. W3C Recommendation, 2023. https://www.w3.org/TR/vc-data-model-2.0/
+
+# Informative References
 
 --- back
 
@@ -162,3 +168,4 @@ This document has no IANA actions.
 {:numbered="false"}
 
 TODO acknowledge.
+

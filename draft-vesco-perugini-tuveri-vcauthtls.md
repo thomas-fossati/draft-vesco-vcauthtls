@@ -3,7 +3,7 @@ title: "TODO - Your title"
 abbrev: "TODO - Abbreviation"
 category: info
 
-docname: draft-vesco-perugini-tuveri-tls-ssi-latest
+docname: draft-vesco-perugini-tuveri-vcauthtls-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -52,7 +52,6 @@ TODO Abstract
 
 # Introduction
 
-TODO Introduction
 
 
 # Conventions and Definitions
@@ -83,7 +82,7 @@ TODO Introduction
 
 # Examples
 
-## TLS Server Uses a VP 
+## TLS Server Uses a VP
 
 ## TLS Client and Server Use VPs
 

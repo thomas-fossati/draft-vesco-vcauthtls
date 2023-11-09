@@ -49,7 +49,7 @@ This document defines a new certificate type and a new extension to exchange Ver
 
 # Introduction
 
-W3C defined VC
+W3C defined VC and DID
 
 How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).
 
@@ -62,7 +62,7 @@ How to create identity in SSI and how to verify the VP (in HS sections describe 
 ## VC Certificate Type
 
 The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. Using separate extensions allows for mixed deployments where the client and server can use certificates of different types. 
-
+~~~
    /* Managed by IANA */
    enum {
       X509(0),
@@ -89,9 +89,11 @@ The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7
          // "TLS Certificate Types" subregistry
       };
    } Certificate;
+~~~
 
 # did_methods extension
 
+~~~
    /* Managed by IANA */
    enum {
       iota(0),
@@ -104,6 +106,7 @@ The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7
    } DIDMethodList
 
    [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods)
+~~~
 
 did_methods extension could be sent only in ClientHello and CertificateRequest messages.
 

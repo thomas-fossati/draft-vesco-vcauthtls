@@ -1,5 +1,5 @@
 ---
-title: "TODO - Your title"
+title: "Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)"
 abbrev: "TODO - Abbreviation"
 category: info
 
@@ -43,15 +43,23 @@ normative:
 informative:
 
 --- abstract
-This document defines a new certificate type and a new extension to exchange Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type allows VC to be used for authentication purpose.
+This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS peer's public keys.
 
 --- middle
 
 # Introduction
 
-<!--W3C defined VC and DID
+The Self-Sovereign Identity (SSI) is an emerging decentralised identity model that gives a subject <!-- select the name--> control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI subject builds his identity starting from generating the identity key pair ($sk, pk$). Then the subject stores $pk$ in the distributed ledger of choice for other nodes to authenticate it. 
+A subject's DID is a pointer to the distributed ledger where other subjects can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger. 
+After that, the subject can request a VC from one of the Issuers available in the system. 
+The VC contains the metadata to describe properties of the
+credential, the DID and the claims about the
+identity of the subject <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
+The combination of the key pair ($sk, pk$), the DID and at least one VC forms the identity compliant with the SSI model.
 
-How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).-->
+A subject requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the subject with its $sk$. The verifier authenticates the peers checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting subject.
+
+The SSI model subtends the peer-to-peer model of interaction where only one peer authenticates the other or the peers can authenticate each other.
 
 # Conventions and Definitions
 

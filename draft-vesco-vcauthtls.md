@@ -20,8 +20,8 @@ venue:
 #  type: Working Group
 #  mail: WG@example.com
 #  arch: https://example.com/WG
-  github: "Cybersecurity-LINKS/draft-vesco-perugini-tls-ssi"
-  latest: "https://Cybersecurity-LINKS.github.io/draft-vesco-perugini-tls-ssi/draft-vesco-perugini-tuveri-tls-ssi.html"
+  github: "Cybersecurity-LINKS/draft-vesco-vcauthtls"
+  latest: "https://Cybersecurity-LINKS.github.io/draft-vesco-perugini-tls-ssi/draft-vcauthtls.html"
 
 author:
  -

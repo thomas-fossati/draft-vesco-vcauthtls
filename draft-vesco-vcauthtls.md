@@ -141,7 +141,6 @@ did_methods extension could be sent only in ClientHello and CertificateRequest m
 # TLS Client and Server Handshake
 
 ~~~plantuml
-@startuml
 participant DLT_A order 1
 participant Client order 2
 participant Server order 3
@@ -160,7 +159,6 @@ Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 Server --> DLT_B : DID Resolve
-@enduml
 ~~~
 
 # Examples

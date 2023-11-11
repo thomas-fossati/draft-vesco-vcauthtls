@@ -39,6 +39,26 @@ author:
 
 
 normative:
+  VC:
+   title: "Verifiable Credentials Data Model v2.0"
+   date: November 2023
+   author:
+      org: W3C
+   seriesinfo:
+      W3C TR/vc-data-model-2.0/
+   target:
+      https://www.w3.org/TR/2023/WD-vc-data-model-2.0-20231104/
+
+  DID:
+   title: "Decentralized Identifiers (DIDs) v1.0 Core architecture, data model, and representations"
+   date: July 2022
+   author:
+      org: W3C
+   seriesinfo:
+      W3C TR/did-core
+   target:
+      https://www.w3.org/TR/2022/REC-did-core-20220719/
+
 
 informative:
 
@@ -49,8 +69,8 @@ This document defines a new certificate type and extension for the exchange of V
 
 # Introduction and motivation
 
-The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a subject <!-- select the name--> control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI subject builds his identity starting from generating the identity key pair ($sk, pk$). Then the subject stores $pk$ in the distributed ledger of choice for other nodes to authenticate it. 
-A subject's DID is a pointer to the distributed ledger where other subjects can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger. 
+The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a subject <!-- select the name--> control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI subject builds his identity starting from generating the identity key pair ($sk, pk$). Then the subject stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
+A subject's DID is a pointer to the distributed ledger where other subjects can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger.
 After that, the subject can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the subject <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
 The combination of the key pair ($sk, pk$), the DID and at least one VC forms the identity compliant with the SSI model.
 A subject requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the subject with its $sk$. The verifier authenticates the peers checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting subject.
@@ -175,14 +195,6 @@ TODO Security
 # IANA Considerations
 
 <!--This document has no IANA actions.-->
-
-# Normative References
-
-[DID] W3C, Decentralized Identifiers (DIDs) v1.0. Core architecture, data model, and representations. W3C Recommendation, 2022. https://www.w3.org/TR/did-core/
-
-[VC] W3C, Verifiable Credentials Data Model v2.0. W3C Recommendation, 2023. https://www.w3.org/TR/vc-data-model-2.0/
-
-# Informative References
 
 --- back
 

@@ -140,6 +140,8 @@ did_methods extension could be sent only in ClientHello and CertificateRequest m
 
 # TLS Client and Server Handshake
 
+{{tls-full}} below shows the basic full TLS handshake:
+
 ~~~plantuml
 participant DLT_A order 1
 participant Client order 2
@@ -160,6 +162,7 @@ Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 Server --> DLT_B : DID Resolve
 ~~~
+{: #tls-full title="Message Flow for Full TLS Handshake"}
 
 # Examples
 

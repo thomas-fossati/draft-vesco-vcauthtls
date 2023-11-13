@@ -170,11 +170,18 @@ The certificates in the TLS client or server certificate chain MAY be sent as pa
 
 ## Certificate Request
 
+The server must send the did_methods extension in this message when client_certificate_type extension is set to VC. If the client has previously sent the did_methods extension, the extension sent by the server must be a list of DID methods client and server have in common. If the client did not send "did_methods" extension the server is free to select the values that it wants.
 
+A client processing this extension realizes that does not have a DID that belongs to one of the DLTs specified by the server MUST terminate the handshake with a fatal alert "unsupported_did_methods".
 
 # Certificate
 
+In the case of TLS 1.3, and when the certificate_type is VC, the Certificate contents and processing are different than for the Certificate message specified for other values of certificate_type in [RFC8446]. The party that process a Certificate message containing a VC must check that the VC follows the scheme specified in the @context field, then check the validity of the VC metadata, verify the signature of the Issuer on the VC, and then extract the server DID from the credentialSubject field of the VC and resolve the server DID to retrieve the server public key from the distributed ledger.
+The public is employed to verify the signature in the CertificateVerify message sent by the peer.
 
+# Certificate Verify
+
+The signature is computed in the same way as before, but now the private key associated to public key of the sender DID document is employed.
 
 # Examples
 

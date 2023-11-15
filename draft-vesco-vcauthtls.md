@@ -169,7 +169,7 @@ Server -> DLT_B : DID Resolve
 ```
 -->
 
-![](full-hs.svg)
+![](images/full-hs.svg)
 
 {: #tls-full title="Message Flow for Full TLS Handshake"}
 
@@ -228,13 +228,13 @@ Server -> Client : { Encrypted Extensions \n+ server_cert_types*=VC }
 Server -> Client : { Certificate* }
 Server -> Client : { Certificate Verify* }
 Server -> Client : { Finished }
-Client --> IOTA : DID Resolve
+Client -> IOTA : DID Resolve
 Client -> Server : { Finished }
 @enduml
 ```
 -->
 
-![](srvr-vc.svg)
+![](images/srvr-vc.svg)
 
 ## TLS Client and Server Use VCs
 
@@ -257,16 +257,16 @@ Server -> Client : { Certificate request* \n+ did_methods*=(iota) }
 Server -> Client : { Certificate* }
 Server -> Client : { Certificate Verify* }
 Server -> Client : { Finished }
-Client --> DLT_A : DID Resolve
+Client -> DLT_A : DID Resolve
 Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
-Server --> DLT_B : DID Resolve
+Server -> DLT_B : DID Resolve
 @enduml
 ```
 -->
 
-![](mutual-vc.svg)
+![](images/mutual-vc.svg)
 
 ## TLS Client Uses a VC and Server Uses an X.509 Certificate
 
@@ -296,7 +296,7 @@ Server -> DLT_B : DID Resolve
 ```
 -->
 
-![](clnt-vc-srvr-x509.svg)
+![](images/clnt-vc-srvr-x509.svg)
 
 ## TLS Client Uses Certificate and Server Uses VC
 
@@ -326,7 +326,7 @@ Client -> Server : { Finished }
 ```
 -->
 
-![](clnt-x509-srvr-vc.svg)
+![](images/clnt-x509-srvr-vc.svg)
 
 ## Renegotiation of DID Methods
 

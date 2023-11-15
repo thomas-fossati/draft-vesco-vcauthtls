@@ -143,7 +143,9 @@ struct {
 
 {{tls-full}} below shows the basic full TLS handshake:
 
-~~~plantuml
+<div hidden>
+```
+@startuml full-hs
 participant DLT_A order 1
 participant Client order 2
 participant Server order 3
@@ -163,7 +165,12 @@ Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 Server --> DLT_B : DID Resolve
-~~~
+@enduml
+```
+</div>
+
+![](full-hs.svg)
+
 {: #tls-full title="Message Flow for Full TLS Handshake"}
 
 ## Client Hello
@@ -205,8 +212,9 @@ Figures [x], [x] and [x] show some message-exchanges examples.
 
 This section shows an example that the client is willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message as depicted in Figure [X]. 
 
-~~~plantuml
-@startuml
+<div hidden>
+```
+@startuml srvr-vc
 skinparam sequenceMessageAlign direction
 skinparam ParticipantPadding 100
 
@@ -223,14 +231,18 @@ Server -> Client : { Finished }
 Client --> IOTA : DID Resolve
 Client -> Server : { Finished }
 @enduml
-~~~
+```
+</div>
+
+![](srvr-vc.svg)
 
 ## TLS Client and Server Use VCs
 
 This section shows an example where the TLS client as well as the TLS server use VCs as presented in figure [X]. In fact the server selects VC type for both client_cert_types and server_cert_types extensions and in the CertificateRequest message selects a set of DID methods both endpoints have in common.
 
-~~~plantuml
-@startuml
+<div hidden>
+```
+@startuml mutual-vc
 database DLT_A order 1
 participant Client order 2
 participant Server order 3
@@ -251,14 +263,18 @@ Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 Server --> DLT_B : DID Resolve
 @enduml
-~~~
+```
+</div>
+
+![](mutual-vc.svg)
 
 ## TLS Client Uses a VC and Server Uses an X.509 Certificate
 
 This section shows an example combining the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either VC or X.509 certificate for client-side authentication. The server then selects X.509 certificate to authenticate with the client and VC for client authentication. The server sends a list of its choice of DID methods.
 
-~~~plantuml
-@startuml
+<div hidden>
+```
+@startuml clnt-vc-srvr-x509
 participant Client order 2
 participant Server order 3
 database DLT_B order 4
@@ -277,14 +293,18 @@ Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 Server -> DLT_B : DID Resolve
 @enduml
-~~~
+```
+</div>
+
+![](clnt-vc-srvr-x509.svg)
 
 ## TLS Client Uses Certificate and Server Uses VC
 
 This section shows an example of a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and provide a VC to authenticate with the client.
 
-~~~plantuml
-@startuml
+<div hidden>
+```
+@startuml clnt-x509-srvr-vc
 participant Client order 2
 participant Server order 3
 database DLT_A order 1
@@ -303,7 +323,10 @@ Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
 @enduml
-~~~
+```
+</div>
+
+![](clnt-x509-srvr-vc.svg)
 
 ## Renegotiation of DID Methods
 

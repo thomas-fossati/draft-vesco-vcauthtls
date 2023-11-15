@@ -179,17 +179,17 @@ In order to express support for VC, a client MUST include an extension of type "
 
 When the server receives the ClientHello containing the client_certificate_type extension and/or the server_certificate_type extension, the following scenarios are possible:
 
-- The server does not support none of the extensions and omits them in EncryptedExtensions.
+- The server does not support the extensions and omits them in EncryptedExtensions.
 - The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate". 
-- Both client and server indicate support for the VC certificate type, but in addition to the server_certificate_type extension the client did not send any did_methods extension. The server MUST terminate the session with a fatal alert of type "missing_extension".  
-- Both client and server indicate support for the VC certificate type, but the server's DID is not compatible with any of the DID Methods present in the did_methods extension sent by the client. [Could select another certificate type/ It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends an HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs on which has a DID.]
+- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server MUST terminate the session with a fatal alert of type "missing_extension".  
+- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods present in the did_methods extension sent by the client. [Could select another certificate type/ It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends an HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs on which it has a DID.]
 - Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client (if it selects VC it must also send the did_methods extension in the CertificateRequest message).  
 
 ## Certificate Request
 
-The server MUST send the did_methods extension in this message if it sent an EncryptedExtensions message with client_certificate_type extension equals to VC. If ClientHello contains the did_methods extension, the server MUST send a list of DID methods client and server have in common. If the client did not send the "did_methods" extension the server is free to select any DID Methods it wants.
+The server MUST send the did_methods extension in this message if it sent an EncryptedExtensions requesting a VC to the client through the client_certificate_type extension. If ClientHello contains the did_methods extension, the server MUST send a list of DID methods client and server have in common. If the client did not send the "did_methods" extension the server can select a list of DID Methods of its choice.
 
-A client that processes this message that does not have a DID compatible with the DID Methods specified by the server MUST send a Certificate message containing no certificates (i.e., with the certificate list field having length 0).
+A client that processes this message that does not have a DID compatible with the DID Methods selected by the server MUST send a Certificate message containing no certificates (i.e., with the certificate list field having length 0).
 
 # Certificate
 

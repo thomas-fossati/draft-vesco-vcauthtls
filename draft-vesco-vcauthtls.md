@@ -64,7 +64,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 ## client_cert_type and server_cert_type
 
-The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, VC, for usage with TLS 1.3. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. CertificateType values are sent in the "server_certificate_type" and "client_certificate_type" extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
+The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, VC, for usage with TLS 1.3. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
 
 ~~~
 /* Managed by IANA */
@@ -93,13 +93,11 @@ struct {
 } Certificate;
 ~~~
 
-As per [RFC7250], the client will send a list of certificate types in [endpoint]_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in its EncryptedExtensions (TLS 1.3) message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message.
+As per [RFC7250], the client will send a list of certificate types in [endpoint]_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions (TLS 1.3) message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message.
 
 # did_methods extension
 
-This section defines the new did_methods extension, used as part of an extended TLS handshake when VC are used. This extension contains a list of DID Methods supported by an endpoint, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in ClientHello only when it indicates VC support in the server_certificate_type extension. The server MUST send this extension in a CertificateRequest message only if it selected VC certificate type in client_certificate_type extension. The extension format which uses the "extension_data" field, is used to carry the DIDMethodList structure. The structure of this new extension is shown in figure X.
-
-The list of existing DID Methods is maintained by the W3C [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods), but this document proposes the DIDMethod structure that is an enum to express the DID Methods as integers.  
+This section defines the did_methods extension, used as part of an extended TLS handshake when VC are used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server MUST send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the "extension_data" field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.
 
 ~~~
 /* Managed by IANA */
@@ -114,20 +112,21 @@ struct {
 } DIDMethodList
 ~~~
 
+The list of existing DID Methods is maintained by the W3C [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID method is expressed in the form of a string. The DIDMethod enum proposes a mapping of these strings into integers.
+
 # TLS Client and Server Handshake
 
-Figure below shows the basic full TLS handshake:
+The Figure below shows the basic full TLS handshake:
 
 <!--
 ```
 @startuml full-hs
-participant DLT_A order 1
+database IOTA as dlt1 order 1
+database IOTA as dlt2 order 4
 participant Client order 2
 participant Server order 3
-database DLT_B order 4
 skinparam sequenceMessageAlign direction
 skinparam ParticipantPadding 100
-
 Client -> Server : Client Hello \n+ client_cert_types* \n+ server_cert_types* \n+ key_share* \n+ sig_algs* \n+ did_methods
 Server -> Client : Server Hello \n+ key_share*
 Server -> Client : { Encrypted Extensions \n+ client_cert_types* \n+ server_cert_types* }
@@ -135,18 +134,16 @@ Server -> Client : { Certificate request* \n+ did_methods* }
 Server -> Client : { Certificate* }
 Server -> Client : { Certificate Verify* }
 Server -> Client : { Finished }
-Client -> DLT_A : DID Resolve
+Client -> dlt1 : DID Resolve
 Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
-Server -> DLT_B : DID Resolve
+Server -> dlt2 : DID Resolve
 @enduml
 ```
 -->
 
 ![full-hs](images/full-hs.svg)
-
-{: #tls-full title="Message Flow for Full TLS Handshake"}
 
 ## Client Hello
 
@@ -158,33 +155,35 @@ When the server receives the ClientHello containing the client_certificate_type 
 
 - The server does not support the extensions and omits them in EncryptedExtensions.
 - The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate".
-- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server MUST terminate the session with a fatal alert of type "missing_extension".  
+- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server MUST terminate the session with a fatal alert of type "missing_extension".
 - Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods present in the did_methods extension sent by the client. [It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends an HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs on which it has a DID.]
-- Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client (if it selects VC it must also send the did_methods extension in the CertificateRequest message).  
+- Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client (if it selects VC it must also send the did_methods extension in the CertificateRequest message).
 
 ## Certificate Request
 
-The server MUST send the did_methods extension in this message if it sent an EncryptedExtensions requesting a VC to the client through the client_certificate_type extension. If ClientHello contains the did_methods extension, the server MUST send a list of DID methods client and server have in common. If the client did not send the "did_methods" extension the server can select a list of DID Methods of its choice.
+In TLS 1.3 the server sends this message to request client authentication. The server MUST send this message equipped with the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contains the did_methods extension, the server MUST send a list of DID methods client and server have in common. If the client did not send the did_methods extension the server can select a list of DID Methods of its choice.
 
 A client that processes this message that does not have a DID compatible with the DID Methods selected by the server MUST send a Certificate message containing no certificates (i.e., with the certificate list field having length 0).
 
-# Certificate
+## Certificate
 
-In the case of TLS 1.3, and when the certificate_type is VC, the Certificate contents and processing are different than for the Certificate message specified for other values of certificate_type in [RFC8446]. If the VC certificate type was negotiated, then the certificate_list MUST contain no more than one CertificateEntry containing a VC that SHOULD be CBOR encoded. The party that processes a Certificate message must follow the specifications proposed by the W3C [X].
+In the case of TLS 1.3, and when the certificate_type is VC, the Certificate contents and processing are different than for the Certificate message specified for other values of certificate_type in [RFC8446]. If the case of VC certificate type the certificate_list MUST contain no more than one CertificateEntry with the content of the endpoint's VC that SHOULD be CBOR encoded. The party that processes a Certificate message MUST follow the specifications proposed by the W3C [X].
 
 <!--The endpoint must check that the VC follows the scheme specified in the @context field, then check the validity of the VC metadata, verify the signature of the Issuer on the VC, and then extract the server DID from the credentialSubject field of the VC and resolve the server DID to retrieve the server public key from the distributed ledger. The public is employed to verify the signature in the CertificateVerify message sent by the peer.-->
 
 ## Certificate Verify
 
-In the case of TLS 1.3, and when the certificate_type is VC, the signature in the CertificateVerify message is computed with the private key associated to the public key of the sender's DID document. In this way the content of this message resambles the one of the VP. The only difference is that the signature is computed over the transcript hash of the handshake and not just the VC.  
+As discussed in [Section I](#introduction-and-motivation), in the SSI ecosystem a Holder wraps the VC into a VP and signs it before presenting it to a Verifier for for authentication.
+
+In the case of TLS 1.3, and when the certificate_type is VC the CertificateVerify message acts as a VP. The signature is computed over the transcript hash that contains also the VC of the sender.
 
 # Examples
 
-Figures X,Y,Z,W show some message-exchanges examples.
+This section shows some message-exchanges examples.
 
 ## TLS Server Uses a VC
 
-This section shows an example of a client willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message as depicted in Figure [srvr-vc].
+This is an example of a client willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message.
 
 <!--
 ```
@@ -212,15 +211,15 @@ Client -> Server : { Finished }
 
 ## TLS Client and Server Use VCs
 
-This section shows an example where the TLS client as well as the TLS server use VCs as presented in figure X. In fact the server selects VC type for both client_cert_types and server_cert_types extensions and in the CertificateRequest message selects a set of DID methods both endpoints have in common as shown in Figure [mutual-vc].
+This section shows an example where the TLS client as well as the TLS server use VCs for authentication. In fact the server selects VC for both client_cert_types and server_cert_types extensions and in the CertificateRequest message sends the did_methods extension with a set of DID methods both endpoints have in common.
 
 <!--
 ```
 @startuml mutual-vc
-database DLT_A order 1
+database IOTA as dlt1 order 1
+database IOTA as dlt2 order 4
 participant Client order 2
 participant Server order 3
-database DLT_B order 4
 skinparam sequenceMessageAlign direction
 skinparam ParticipantPadding 100
 
@@ -231,11 +230,11 @@ Server -> Client : { Certificate request* \n+ did_methods*=(iota) }
 Server -> Client : { Certificate* }
 Server -> Client : { Certificate Verify* }
 Server -> Client : { Finished }
-Client -> DLT_A : DID Resolve
+Client -> dlt1 : DID Resolve
 Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
-Server -> DLT_B : DID Resolve
+Server -> dlt2 : DID Resolve
 @enduml
 ```
 -->
@@ -244,14 +243,14 @@ Server -> DLT_B : DID Resolve
 
 ## TLS Client Uses a VC and Server Uses an X.509 Certificate
 
-This section shows an example combining the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either VC or X.509 certificate for client-side authentication. The server then selects X.509 certificate to authenticate with the client and VC for client authentication as depicted in Figure [clnt-vc-srvr-x509]. The server sends a list of its choice of DID methods.
+This example combines the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either a VC or an X.509 certificate for client-side authentication. The server then selects X.509 to authenticate with the client and VC for client authentication. The server then sends a list of DID methods of its choice.
 
 <!--
 ```
 @startuml clnt-vc-srvr-x509
 participant Client order 2
 participant Server order 3
-database DLT_B order 4
+database IOTA order 4
 skinparam sequenceMessageAlign direction
 skinparam ParticipantPadding 100
 
@@ -265,7 +264,7 @@ Server -> Client : { Finished }
 Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
-Server -> DLT_B : DID Resolve
+Server -> IOTA : DID Resolve
 @enduml
 ```
 -->
@@ -274,14 +273,14 @@ Server -> DLT_B : DID Resolve
 
 ## TLS Client Uses X.509 Certificate and Server Uses VC
 
-This section shows an example of a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and provide a VC to authenticate with the client as shown in Figure [clnt-x509-srvr-vc].
+This example proposes a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and to provide a VC to authenticate with the client.
 
 <!--
 ```
 @startuml clnt-x509-srvr-vc
 participant Client order 2
 participant Server order 3
-database DLT_A order 1
+database IOTA order 1
 skinparam sequenceMessageAlign direction
 skinparam ParticipantPadding 100
 
@@ -292,7 +291,7 @@ Server -> Client : { Certificate request* }
 Server -> Client : { Certificate* }
 Server -> Client : { Certificate Verify* }
 Server -> Client : { Finished }
-Client -> DLT_A : DID Resolve
+Client -> IOTA : DID Resolve
 Client -> Server : { Certificate* }
 Client -> Server : { Certificate Verify* }
 Client -> Server : { Finished }
@@ -312,10 +311,10 @@ We include an image of the message flow in this section if we decide that the se
 
 <!-- We should discuss or include references to revocation processes -->
 
-All the security considerations discussed in [RFC8446] applies to this document as well.
+All the security considerations presented in [RFC8446] applies to this document as well.
 
 Further considerations, though, about the DID resolution process are worth discussing. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature of the DLT (i.e. the RoT for identity public keys).
-A reasonable solution to this attack could be to create a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node must be authenticated through an X.509 certificate. The number of DLT nodes within an IoT large scale systems is expected to be very low (i.e. one or a couple of nodes) with respect to the total number of IoT and edge nodes, so adopting X.509 certificates to authenticate those DLT nodes does not reduce the overall benefit in terms of lower complexity and cost associated to certificate management proper of SSI solution.  
+A reasonable solution to this attack could be to create a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node must be authenticated through an X.509 certificate. The number of DLT nodes within an IoT large scale systems is expected to be very low (i.e. one or a couple of nodes) with respect to the total number of IoT and edge nodes, so adopting X.509 certificates to authenticate those DLT nodes does not reduce the overall benefit in terms of lower complexity and cost associated to certificate management proper of SSI solution.
 In order to reduce the overhead of establishing a TLS channel with the DLT node for DID resolution, there are two possible approaches (i) leverage session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 or (ii) change the logic of DLT nodes and adopt a data protection solution (e.g. with HMAC to authenticate the data from DLT node).
 
 # IANA Considerations

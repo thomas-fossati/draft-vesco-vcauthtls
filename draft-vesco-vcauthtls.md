@@ -64,7 +64,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 ## client_cert_type and server_cert_type
 
-The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, VC, for usage with TLS 1.3. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
+The TLS extensions client_certificate_type and server_certificate_type defined in [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
 
 ~~~
 /* Managed by IANA */
@@ -90,19 +90,25 @@ struct {
          opaque cert_data<1..2^24-1>;
    };
    Extension extensions<0..2^16-1>;
+} CertificateEntry;
+
+struct {
+	opaque certificate_request_context<0..2^8-1>;
+	CertificateEntry certificate_list<0..2^24-1>;
 } Certificate;
 ~~~
 
-As per [RFC7250], the client will send a list of certificate types in [endpoint]_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions (TLS 1.3) message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message.
+As per [RFC7250], the client will send a list of certificate types in [endpoint]_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.
 
 # did_methods extension
 
-This section defines the did_methods extension, used as part of an extended TLS handshake when VC are used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server MUST send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the "extension_data" field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.
+This section defines the did_methods extension, used as part of an extended TLS 1.3 handshake when VC certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server MUST send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the extension_data field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.
 
 ~~~
-/* Managed by IANA */
 enum {
-   iota(0),
+   btcr(0),
+   ethr(1),
+   iota(2),
    ..
    (65535)
 } DIDMethod
@@ -112,7 +118,7 @@ struct {
 } DIDMethodList
 ~~~
 
-The list of existing DID Methods is maintained by the W3C [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID method is expressed in the form of a string. The DIDMethod enum proposes a mapping of these strings into integers.
+The list of existing DID Methods is currently maintained by the W3C in the [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID Method is expressed in the form of a string. This document proposes the DIDMethod enum to map these strings into integer values.
 
 # TLS Client and Server Handshake
 
@@ -121,8 +127,8 @@ The Figure below shows the basic full TLS handshake:
 <!--
 ```
 @startuml full-hs
-database IOTA as dlt1 order 1
-database IOTA as dlt2 order 4
+database DLT as dlt1 order 1
+database DLT as dlt2 order 4
 participant Client order 2
 participant Server order 3
 skinparam sequenceMessageAlign direction
@@ -147,35 +153,32 @@ Server -> dlt2 : DID Resolve
 
 ## Client Hello
 
-In order to express support for VC, a client MUST include an extension of type "client_certificate_type" or "server_certificate_type" in the extended ClientHello message as described in Section 4.1.2 of [RFC8446] (TLS 1.3). If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension. If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension.
+In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446]. If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension. 
+<!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
 ## Server Hello
 
-When the server receives the ClientHello containing the client_certificate_type extension and/or the server_certificate_type extension, the following scenarios are possible:
+When the server receives the ClientHello containing the server_certificate_type extension and/or the client_certificate_type extension, the following scenarios are possible:
 
-- The server does not support the extensions and omits them in EncryptedExtensions.
+- The server does not support the extensions, omits them in EncryptedExtensions and the handshake proceeds with X.509 authentication.
 - The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate".
 - Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server MUST terminate the session with a fatal alert of type "missing_extension".
-- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods present in the did_methods extension sent by the client. [It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends an HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs on which it has a DID.]
-- Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client (if it selects VC it must also send the did_methods extension in the CertificateRequest message).
+- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client, listed in the did_methods extension in ClientHello message. {It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends a HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs in which it has a DID.} <!-- TBA -->
+- Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client. In case the server selects VC certificate type, MUST also send the did_methods extension in the CertificateRequest message.
 
 ## Certificate Request
 
-In TLS 1.3 the server sends this message to request client authentication. The server MUST send this message equipped with the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contains the did_methods extension, the server MUST send a list of DID methods client and server have in common. If the client did not send the did_methods extension the server can select a list of DID Methods of its choice.
-
-A client that processes this message that does not have a DID compatible with the DID Methods selected by the server MUST send a Certificate message containing no certificates (i.e., with the certificate list field having length 0).
+The server sends this message to request client authentication. It MUST include the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contained the did_methods extension, the server MUST send a list of DID Methods client and server have in common. If the client did not send the did_methods extension the server MUST select a list of DID Methods it supports. A client that processes this message that does not have a DID compatible with the DID Methods selected by the server MUST send a Certificate message containing no certificates, i.e. with the certificate list field having length 0.
 
 ## Certificate
 
-In the case of TLS 1.3, and when the certificate_type is VC, the Certificate contents and processing are different than for the Certificate message specified for other values of certificate_type in [RFC8446]. If the case of VC certificate type the certificate_list MUST contain no more than one CertificateEntry with the content of the endpoint's VC that SHOULD be CBOR encoded. The party that processes a Certificate message MUST follow the specifications proposed by the W3C [X].
+When the selected certificate type is VC, the certificate_list in the Certificate message MUST contain no more than one CertificateEntry with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential SHOULD be CBOR encoded. After decoding, the endpoint MUST follow the procedure in [VC](https://www.w3.org/TR/vc-data-model-2.0/) to verify the Verifiable Credential.
 
 <!--The endpoint must check that the VC follows the scheme specified in the @context field, then check the validity of the VC metadata, verify the signature of the Issuer on the VC, and then extract the server DID from the credentialSubject field of the VC and resolve the server DID to retrieve the server public key from the distributed ledger. The public is employed to verify the signature in the CertificateVerify message sent by the peer.-->
 
 ## Certificate Verify
 
-As discussed in [Section I](#introduction-and-motivation), in the SSI ecosystem a Holder wraps the VC into a VP and signs it before presenting it to a Verifier for for authentication.
-
-In the case of TLS 1.3, and when the certificate_type is VC the CertificateVerify message acts as a VP. The signature is computed over the transcript hash that contains also the VC of the sender.
+As discussed in [Section I](#introduction-and-motivation), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
 
 # Examples
 

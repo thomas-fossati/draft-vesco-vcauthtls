@@ -12,7 +12,7 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
+ - next generatioon
  - unicorn
  - sparkling distributed ledger
 venue:

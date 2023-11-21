@@ -222,6 +222,8 @@ This example shows a TLS 1.3 handshake with server authentication. The server se
 The client does not own an identity at the TLS level, therefore omits the client_certificate_type extension. The server indicates in the EncryptedExtensions message a
 server_certificate_type equal to VC and insert the Verifiable Credential into the Certificate message.
 
+<!-- TODO description of DID resolve -->
+
 <!--
 ```
 @startuml srvr-vc
@@ -248,7 +250,10 @@ Client -> Server : { Finished }
 
 ## Mutual authentication with Verifiable Credentials
 
-This section shows an example where the TLS client as well as the TLS server use VCs for authentication. In fact the server selects VC for both client_cert_types and server_cert_types extensions and in the CertificateRequest message sends the did_methods extension with a set of DID methods both endpoints have in common.
+This example shows a TLS 1.3 handshake with mutual authenitcation. Both client and server select their  Verifiable Credential for authentication.
+The client sends the did_methods extension along with the server_certificate_type extension set to VC as the first option. The server sends the server_certificate_type set to VC, the client_cert_type set to VC and the CertificateRequest message together with the did_methods extension with a set of DID Methods both endpoints have in common. Both client and server send their Verifiable Credential into their respective Certificate message.
+
+<!-- TODO description of DID resolve at client and server side -->
 
 <!--
 ```

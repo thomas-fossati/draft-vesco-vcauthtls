@@ -354,7 +354,7 @@ In order to reduce the overhead of establishing a TLS channel with the DLT node 
 
 # IANA Considerations
 
-This document has no IANA actions.
+This document has no IANA actions..
 
 
 --- back

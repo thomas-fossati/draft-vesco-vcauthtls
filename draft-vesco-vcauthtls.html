@@ -5,11 +5,9 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>TODO - Your title</title>
-<meta content="Andrea Vesco" name="author">
-<meta content="Leonardo Perugini" name="author">
-<meta content="Nicola Tuveri" name="author">
+<meta content="Your Name Here" name="author">
 <meta content="
-       This document defines a new certificate type and a new extension to exchange Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type allows VC to be used for authentication purpose. 
+       This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake. 
     " name="description">
 <meta content="xml2rfc 3.18.2" name="generator">
 <meta content="next generation" name="keyword">
@@ -24,13 +22,13 @@
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.9
+    wcwidth 0.2.10
 -->
 <link href="draft-vesco-vcauthtls.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1032,8 +1030,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Vesco, et al.</td>
-<td class="center">Expires 12 May 2024</td>
+<td class="left">Here</td>
+<td class="center">Expires 24 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1041,30 +1039,22 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">Network Working Group</dd>
+<dd class="workgroup">WG Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-vesco-vcauthtls-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-09" class="published">9 November 2023</time>
+<time datetime="2023-11-21" class="published">21 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-12">12 May 2024</time></dd>
-<dt class="label-authors">Authors:</dt>
+<dd class="expires"><time datetime="2024-05-24">24 May 2024</time></dd>
+<dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">A. Vesco</div>
-<div class="org">LINKS Foundation</div>
-</div>
-<div class="author">
-      <div class="author-name">L. Perugini</div>
-<div class="org">LINKS Foundation</div>
-</div>
-<div class="author">
-      <div class="author-name">N. Tuveri</div>
-<div class="org">Tampere University</div>
+      <div class="author-name">Y. N. Here</div>
+<div class="org">Your Organization Here</div>
 </div>
 </dd>
 </dl>
@@ -1072,7 +1062,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">TODO - Your title</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines a new certificate type and a new extension to exchange Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type allows VC to be used for authentication purpose.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1080,10 +1070,14 @@ svg :is([fill="white"], [fill^="#fff"]) {
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://Cybersecurity-LINKS.github.io/draft-vesco-perugini-tls-ssi/draft-vesco-perugini-tuveri-tls-ssi.html">https://Cybersecurity-LINKS.github.io/draft-vesco-perugini-tls-ssi/draft-vesco-perugini-tuveri-tls-ssi.html</a></span>.
+        The latest revision of this draft can be found at <span><a href="https://example.com/LATEST">https://example.com/LATEST</a></span>.
         Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-vesco-vcauthtls/">https://datatracker.ietf.org/doc/draft-vesco-vcauthtls/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
-<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/Cybersecurity-LINKS/draft-vesco-perugini-tls-ssi">https://github.com/Cybersecurity-LINKS/draft-vesco-perugini-tls-ssi</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
+        which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1104,7 +1098,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1143,7 +1137,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-extensions" class="internal xref">Extensions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-vc-certificate-type" class="internal xref">VC Certificate Type</a></p>
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-client_cert_type-and-server" class="internal xref">client_cert_type and server_cert_type</a></p>
 </li>
             </ul>
 </li>
@@ -1154,65 +1148,56 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-tls-client-and-server-hands" class="internal xref">TLS Client and Server Handshake</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-clienthello" class="internal xref">ClientHello</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-client-hello" class="internal xref">Client Hello</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-certificaterequest" class="internal xref">CertificateRequest</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-server-hello" class="internal xref">Server Hello</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-certificate" class="internal xref">Certificate</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-certificate-request" class="internal xref">Certificate Request</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-certificate" class="internal xref">Certificate</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-certificate-verify" class="internal xref">Certificate Verify</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-an-alternative-design-desig" class="internal xref">An alternative Design / Design Consideration</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-tls-server-uses-a-vp" class="internal xref">TLS Server Uses a VP</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-tls-server-uses-a-vc" class="internal xref">TLS Server Uses a VC</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-tls-client-and-server-use-v" class="internal xref">TLS Client and Server Use VPs</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-tls-client-and-server-use-v" class="internal xref">TLS Client and Server Use VCs</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-tls-client-uses-vp-and-serv" class="internal xref">TLS Client Uses VP and Server Uses Certificate</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-tls-client-uses-a-vc-and-se" class="internal xref">TLS Client Uses a VC and Server Uses an X.509 Certificate</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.4">
-                <p id="section-toc.1-1.7.2.4.1"><a href="#section-7.4" class="auto internal xref">7.4</a>.  <a href="#name-tls-client-uses-certificate" class="internal xref">TLS Client Uses Certificate and Server Uses VP</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-tls-client-uses-x509-certif" class="internal xref">TLS Client Uses X.509 Certificate and Server Uses VC</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.5">
-                <p id="section-toc.1-1.7.2.5.1"><a href="#section-7.5" class="auto internal xref">7.5</a>.  <a href="#name-fallback-to-traditional-han" class="internal xref">Fallback to Traditional Handshake</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.6">
-                <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="auto internal xref">7.6</a>.  <a href="#name-empty-intersection-of-clien" class="internal xref">Empty intersection of Client and Server DID Methods</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
-                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="auto internal xref">7.7</a>.  <a href="#name-tls-server-enforces-ssi-ser" class="internal xref">TLS Server Enforces SSI Server Authentication</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-renegotiation-of-did-method" class="internal xref">Renegotiation of DID Methods</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-informative-references" class="internal xref">Informative References</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-normative-references-2" class="internal xref">Normative References</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1223,8 +1208,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">W3C defined VC and DID<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">How to create identity in SSI and how to verify the VP (in HS sections describe how the hs covers the VP presentation).<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier <a href="https://www.w3.org/TR/did-core/">DID</a>, and Verifiable Credential <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC</a>. An SSI aware node builds his identity starting from generating the identity key pair ($sk, pk$). Then the node stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
+A node's DID is a pointer to the distributed ledger where other nodes can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form <em>did:did-method-name:method-specific-id</em> where <em>method-name</em> is the name of the <a href="https://www.w3.org/TR/did-core/">DID Method</a> used to interact with the distributed ledger and <em>method-specific-id</em> is the pointer to the <a href="https://www.w3.org/TR/did-core/">DID Document</a> that contains $pk$, stored in the distributed ledger.
+After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node  and the signature of the Issuer.
+The combination of the key pair ($sk, pk$), the DID and at least one VC forms the identity compliant with the SSI model.
+A node requests access to services by presenting a Verfiable Presentation <a href="https://www.w3.org/TR/vc-data-model-2.0/">VP</a>. The VP is an envelop of the VC signed by the node holding the VC with its $sk$. The verifier authenticates the node checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting node.
+
+The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticate the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occours when also the server node exchange its VP with the client node again at application layer.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">SSI is emerging as an identity option for Internet of Thing and Edge nodes in computing continuum environments. In these scenarios, (mutual) authentication with VP can take place directly at the TLS protocol layer, enabling the the peer-to-peer interaction model envisaged by the SSI model.
+This document describes the extensions to TLS protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
+The extensions enable server-only and mutual authentication using VC, X.509, Raw Public Key or a combination of VC and X.509 certificates at the TLS endpoints. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allow TLS endpoints to use different distributed ledger technologies to store their public keys and during the TLS handshake for authentication purpose.<a href="#section-1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1243,40 +1236,46 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-extensions">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-extensions" class="section-name selfRef">Extensions</a>
       </h2>
-<div id="vc-certificate-type">
+<div id="clientcerttype-and-servercerttype">
 <section id="section-3.1">
-        <h3 id="name-vc-certificate-type">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-vc-certificate-type" class="section-name selfRef">VC Certificate Type</a>
+        <h3 id="name-client_cert_type-and-server">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_cert_type-and-server" class="section-name selfRef">client_cert_type and server_cert_type</a>
         </h3>
-<p id="section-3.1-1">The TLS extensions "client_certificate_type" and "server_certificate_type" [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. Using separate extensions allows for mixed deployments where the client and server can use certificates of different types.
-~~~
-   /* Managed by IANA */
-   enum {
-      X509(0),
-      RawPublicKey(2),
-      VC(224),
-      (255)
-   } CertificateType;<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">struct {
-      select(certificate_type){
-         // The new certificate type defined in this document
-         case VC:
-            opaque cert_data&lt;1..2^24-1&gt;;<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.1-3">
+<p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a> are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1-2">
 <pre>
-     // RawPublicKey certificate type defined in RFC 7250
-     case RawPublicKey:
-        opaque ASN1_subjectPublicKeyInfo&lt;1..2^24-1&gt;;
+/* Managed by IANA */
+enum {
+   X509(0),
+   RawPublicKey(2),
+   VC(224),
+   (255)
+} CertificateType;
 
-     // X.509 certificate defined in RFC 5246
-     case X509:
-        opaque cert_data&lt;1..2^24-1&gt;;
+struct {
+   select(certificate_type){
+      // The new certificate type defined in this document
+      case VC:
+         opaque cert_data&lt;1..2^24-1&gt;;
 
-     // Additional certificate type based on
-     // "TLS Certificate Types" subregistry
-  };    } Certificate; ~~~
-</pre><a href="#section-3.1-3" class="pilcrow">¶</a>
+      // RawPublicKey certificate type defined in RFC 7250
+      case RawPublicKey:
+         opaque ASN1_subjectPublicKeyInfo&lt;1..2^24-1&gt;;
+
+      // X.509 certificate defined in RFC 5246
+      case X509:
+         opaque cert_data&lt;1..2^24-1&gt;;
+   };
+   Extension extensions&lt;0..2^16-1&gt;;
+} CertificateEntry;
+
+struct {
+   opaque certificate_request_context&lt;0..2^8-1&gt;;
+   CertificateEntry certificate_list&lt;0..2^24-1&gt;;
+} Certificate;
+</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
 </div>
+<p id="section-3.1-3">As per <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a>, the client will send a list of certificate types in endpoint_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1286,23 +1285,23 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-did_methods-extension">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-did_methods-extension" class="section-name selfRef">did_methods extension</a>
       </h2>
-<div class="alignLeft art-text artwork" id="section-4-1">
+<p id="section-4-1">This section defines the did_methods extension, used as part of an extended TLS 1.3 handshake when VC certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client <span class="bcp14">MUST</span> send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server <span class="bcp14">MUST</span> send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the extension_data field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-2">
 <pre>
-   /* Managed by IANA */
-   enum {
-      iota(0),
-      ..
-      (65535)
-   } DIDMethod
+enum {
+   btcr(0),
+   ethr(1),
+   iota(2),
+   ..
+   (65535)
+} DIDMethod
 
-   struct {
-      DIDMethod did_methods&lt;2..2^16-2&gt;
-   } DIDMethodList
-
-   [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods)
-</pre><a href="#section-4-1" class="pilcrow">¶</a>
+struct {
+   DIDMethod did_methods&lt;2..2^16-2&gt;
+} DIDMethodList
+</pre><a href="#section-4-2" class="pilcrow">¶</a>
 </div>
-<p id="section-4-2">did_methods extension could be sent only in ClientHello and CertificateRequest messages.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">The list of existing DID Methods is currently maintained by the W3C in the <a href="https://www.w3.org/TR/did-spec-registries/#did-methods">did-registry</a>. Each DID Method is expressed in the form of a string. This document proposes the DIDMethod enum to map these strings into integer values.<a href="#section-4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tls-client-and-server-handshake">
@@ -1310,134 +1309,137 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-tls-client-and-server-hands">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-tls-client-and-server-hands" class="section-name selfRef">TLS Client and Server Handshake</a>
       </h2>
-<div id="clienthello">
+<p id="section-5-1">The Figure below shows the basic full TLS handshake:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="client-hello">
 <section id="section-5.1">
-        <h3 id="name-clienthello">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-clienthello" class="section-name selfRef">ClientHello</a>
-      </h3>
+        <h3 id="name-client-hello">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-hello" class="section-name selfRef">Client Hello</a>
+        </h3>
+<p id="section-5.1-1">In order to express support for VC certificate type, a client <span class="bcp14">MUST</span> include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a>. If the client sends the server_certificate_type extension indicating VC support, it <span class="bcp14">MUST</span> also send the did_methods extension.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="certificaterequest">
+<div id="server-hello">
 <section id="section-5.2">
-        <h3 id="name-certificaterequest">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-certificaterequest" class="section-name selfRef">CertificateRequest</a>
-      </h3>
+        <h3 id="name-server-hello">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-server-hello" class="section-name selfRef">Server Hello</a>
+        </h3>
+<p id="section-5.2-1">When the server receives the ClientHello containing the server_certificate_type extension and/or the client_certificate_type extension, the following scenarios are possible:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">The server does not support the extensions, omits them in EncryptedExtensions and the handshake proceeds with X.509 authentication.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate".<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server <span class="bcp14">MUST</span> terminate the session with a fatal alert of type "missing_extension".<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.4">
+            <p id="section-5.2-2.4.1">Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client, listed in the did_methods extension in ClientHello message. {It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends a HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs in which it has a DID.}<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.5">
+            <p id="section-5.2-2.5.1">Both client and server indicate support for the VC certificate type, the server <span class="bcp14">MAY</span> select the first (most preferred) certificate type from the client's list that is supported by both peers. It <span class="bcp14">MAY</span> include the client_certificate_type in EncryptedExtensions and then request a certificate from the client. In case the server selects VC certificate type, <span class="bcp14">MUST</span> also send the did_methods extension in the CertificateRequest message.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="certificate-request">
+<section id="section-5.3">
+        <h3 id="name-certificate-request">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-certificate-request" class="section-name selfRef">Certificate Request</a>
+        </h3>
+<p id="section-5.3-1">The server sends this message to request client authentication. It <span class="bcp14">MUST</span> include the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contained the did_methods extension, the server <span class="bcp14">MUST</span> send a list of DID Methods client and server have in common. If the client did not send the did_methods extension the server <span class="bcp14">MUST</span> select a list of DID Methods it supports. A client that processes this message that does not have a DID compatible with the DID Methods selected by the server <span class="bcp14">MUST</span> send a Certificate message containing no certificates, i.e. with the certificate list field having length 0.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="certificate">
-<section id="section-5.3">
+<section id="section-5.4">
         <h3 id="name-certificate">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-certificate" class="section-name selfRef">Certificate</a>
-      </h3>
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-certificate" class="section-name selfRef">Certificate</a>
+        </h3>
+<p id="section-5.4-1">When the selected certificate type is VC, the certificate_list in the Certificate message <span class="bcp14">MUST</span> contain no more than one CertificateEntry with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential <span class="bcp14">SHOULD</span> be CBOR encoded. After decoding, the endpoint <span class="bcp14">MUST</span> follow the procedure in <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC</a> to verify the Verifiable Credential.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="certificate-verify">
+<section id="section-5.5">
+        <h3 id="name-certificate-verify">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-certificate-verify" class="section-name selfRef">Certificate Verify</a>
+        </h3>
+<p id="section-5.5-1">As discussed in <span><a href="#introduction" class="internal xref">Section I</a> (<a href="#introduction" class="auto internal xref">Section 1</a>)</span>, a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="an-alternative-design-design-consideration">
-<section id="section-6">
-      <h2 id="name-an-alternative-design-desig">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-an-alternative-design-desig" class="section-name selfRef">An alternative Design / Design Consideration</a>
-    </h2>
 </section>
 </div>
 <div id="examples">
-<section id="section-7">
+<section id="section-6">
       <h2 id="name-examples">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
-<div id="tls-server-uses-a-vp">
-<section id="section-7.1">
-        <h3 id="name-tls-server-uses-a-vp">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-tls-server-uses-a-vp" class="section-name selfRef">TLS Server Uses a VP</a>
-      </h3>
+<p id="section-6-1">This section shows some message-exchanges examples.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="tls-server-uses-a-vc">
+<section id="section-6.1">
+        <h3 id="name-tls-server-uses-a-vc">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-tls-server-uses-a-vc" class="section-name selfRef">TLS Server Uses a VC</a>
+        </h3>
+<p id="section-6.1-1">This is an example of a client willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="tls-client-and-server-use-vps">
-<section id="section-7.2">
+<div id="tls-client-and-server-use-vcs">
+<section id="section-6.2">
         <h3 id="name-tls-client-and-server-use-v">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-tls-client-and-server-use-v" class="section-name selfRef">TLS Client and Server Use VPs</a>
-      </h3>
-</section>
-</div>
-<div id="tls-client-uses-vp-and-server-uses-certificate">
-<section id="section-7.3">
-        <h3 id="name-tls-client-uses-vp-and-serv">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-tls-client-uses-vp-and-serv" class="section-name selfRef">TLS Client Uses VP and Server Uses Certificate</a>
-      </h3>
-</section>
-</div>
-<div id="tls-client-uses-certificate-and-server-uses-vp">
-<section id="section-7.4">
-        <h3 id="name-tls-client-uses-certificate">
-<a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-tls-client-uses-certificate" class="section-name selfRef">TLS Client Uses Certificate and Server Uses VP</a>
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-tls-client-and-server-use-v" class="section-name selfRef">TLS Client and Server Use VCs</a>
         </h3>
-<p id="section-7.4-1">it happens when the server does not send ssi_paramters extension in certificate request or it does but the client does not have a DID in the list of supported DLT (i.e. DID Methods) by the server<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">This section shows an example where the TLS client as well as the TLS server use VCs for authentication. In fact the server selects VC for both client_cert_types and server_cert_types extensions and in the CertificateRequest message sends the did_methods extension with a set of DID methods both endpoints have in common.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="fallback-to-traditional-handshake">
-<section id="section-7.5">
-        <h3 id="name-fallback-to-traditional-han">
-<a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-fallback-to-traditional-han" class="section-name selfRef">Fallback to Traditional Handshake</a>
+<div id="tls-client-uses-a-vc-and-server-uses-an-x509-certificate">
+<section id="section-6.3">
+        <h3 id="name-tls-client-uses-a-vc-and-se">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-tls-client-uses-a-vc-and-se" class="section-name selfRef">TLS Client Uses a VC and Server Uses an X.509 Certificate</a>
         </h3>
-<p id="section-7.5-1">server ignores ssi_parameters extension in the clientHello<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-1">This example combines the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either a VC or an X.509 certificate for client-side authentication. The server then selects X.509 to authenticate with the client and VC for client authentication. The server then sends a list of DID methods of its choice.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="empty-intersection-of-client-and-server-did-methods">
-<section id="section-7.6">
-        <h3 id="name-empty-intersection-of-clien">
-<a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-empty-intersection-of-clien" class="section-name selfRef">Empty intersection of Client and Server DID Methods</a>
+<div id="tls-client-uses-x509-certificate-and-server-uses-vc">
+<section id="section-6.4">
+        <h3 id="name-tls-client-uses-x509-certif">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-tls-client-uses-x509-certif" class="section-name selfRef">TLS Client Uses X.509 Certificate and Server Uses VC</a>
         </h3>
-<p id="section-7.6-1">HelloRetryRequest + foobar extension
-server replies with the list of its DID Methods, this implies that the server has a DID stored in each of the DLT of the listed DID Methods.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-1">This example proposes a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and to provide a VC to authenticate with the client.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="tls-server-enforces-ssi-server-authentication">
-<section id="section-7.7">
-        <h3 id="name-tls-server-enforces-ssi-ser">
-<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-tls-server-enforces-ssi-ser" class="section-name selfRef">TLS Server Enforces SSI Server Authentication</a>
+<div id="renegotiation-of-did-methods">
+<section id="section-6.5">
+        <h3 id="name-renegotiation-of-did-method">
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-renegotiation-of-did-method" class="section-name selfRef">Renegotiation of DID Methods</a>
         </h3>
-<p id="section-7.7-1">server enforces SSI client authentication (no fall back bu enforce SSI to the client)<a href="#section-7.7-1" class="pilcrow">¶</a></p>
-<p id="section-7.7-2">HelloRetryRequest<a href="#section-7.7-2" class="pilcrow">¶</a></p>
+<p id="section-6.5-1">We include an image of the message flow in this section if we decide that the server sends an HRR when it does not have a DID compatible with the list of DID Methods sent by the client.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-8">
+<section id="section-7">
       <h2 id="name-security-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-8-1">TODO Security<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">All the security considerations presented in <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a> applies to this document as well.
+Further considerations, though, about the DID resolution process are worth discussing. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature of the DLT (i.e. the RoT for identity public keys).
+A reasonable solution to this attack could be to create a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node must be authenticated through an X.509 certificate. The number of DLT nodes within an IoT large scale systems is expected to be very low (i.e. one or a couple of nodes) with respect to the total number of IoT and edge nodes, so adopting X.509 certificates to authenticate those DLT nodes does not reduce the overall benefit in terms of lower complexity and cost associated to certificate management proper of SSI solution.
+In order to reduce the overhead of establishing a TLS channel with the DLT node for DID resolution, there are two possible approaches (i) leverage session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 or (ii) change the logic of DLT nodes and adopt a data protection solution (e.g. with HMAC to authenticate the data from DLT node).<a href="#section-7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-9">
+<section id="section-8">
       <h2 id="name-iana-considerations">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">This document has no IANA actions.<a href="#section-9-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="normative-references">
-<section id="section-10">
-      <h2 id="name-normative-references">
-<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
-      </h2>
-<p id="section-10-1">[DID] W3C, Decentralized Identifiers (DIDs) v1.0. Core architecture, data model, and representations. W3C Recommendation, 2022. https://www.w3.org/TR/did-core/<a href="#section-10-1" class="pilcrow">¶</a></p>
-<p id="section-10-2">[VC] W3C, Verifiable Credentials Data Model v2.0. W3C Recommendation, 2023. https://www.w3.org/TR/vc-data-model-2.0/<a href="#section-10-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="informative-references">
-<section id="section-11">
-      <h2 id="name-informative-references">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
-    </h2>
+<p id="section-8-1">This document has no IANA actions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
-<section id="section-12">
-      <h2 id="name-normative-references-2">
-<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-normative-references-2" class="section-name selfRef">Normative References</a>
+<section id="section-9">
+      <h2 id="name-normative-references">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1461,31 +1463,15 @@ server replies with the list of its DID Methods, this implies that the server ha
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-addresses">
-<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Andrea Vesco</span></div>
-<div dir="auto" class="left"><span class="org">LINKS Foundation</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Your Name Here</span></div>
+<div dir="auto" class="left"><span class="org">Your Organization Here</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:andrea.vesco@linksfoundation.com" class="email">andrea.vesco@linksfoundation.com</a>
-</div>
-</address>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Leonardo Perugini</span></div>
-<div dir="auto" class="left"><span class="org">LINKS Foundation</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:leonardo.perugini@linksfoundation.com" class="email">leonardo.perugini@linksfoundation.com</a>
-</div>
-</address>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Nicola Tuveri</span></div>
-<div dir="auto" class="left"><span class="org">Tampere University</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:nic.tuv@gmail.com" class="email">nic.tuv@gmail.com</a>
+<a href="mailto:your.email@example.com" class="email">your.email@example.com</a>
 </div>
 </address>
 </section>

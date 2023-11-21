@@ -251,7 +251,7 @@ Client -> Server : { Finished }
 ## Mutual authentication with Verifiable Credentials
 
 This example shows a TLS 1.3 handshake with mutual authenitcation. Both client and server select their  Verifiable Credential for authentication.
-The client sends the did_methods extension along with the server_certificate_type extension set to VC as the first option. The server sends the server_certificate_type set to VC, the client_cert_type set to VC and the CertificateRequest message together with the did_methods extension with a set of DID Methods both endpoints have in common. Both client and server send their Verifiable Credential into their respective Certificate message.
+The client sends the did_methods extension along with the server_certificate_type extension set to VC as the first option. The server sends the server_certificate_type set to VC, the client_cert_type set to VC and the CertificateRequest message together with the did_methods extension with a set of DID Methods both endpoints have in common. Both client and server send their Verifiable Credential into their respective Certificate messages.
 
 <!-- TODO description of DID resolve at client and server side -->
 
@@ -288,7 +288,7 @@ Server -> dlt2 : DID Resolve
 This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
 The client expresses its willingness to process an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with a Verifiable Credential or an X.509 certificate.
 The server selects X.509 certificate to authenticate with the client and Verifiable Credential for client authentication. Then, the server sends the CertificateRequest message together with the did_methods extension with a set of DID Methods of its choice.
-The server sends its X.509 certificate and the client its Verifiable Credential into their respective Certificate message.
+The server sends its X.509 certificate and the client its Verifiable Credential into their respective Certificate messages.
 
 <!-- TODO description of DID resolve at server side -->
 

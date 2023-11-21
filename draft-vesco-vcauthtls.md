@@ -66,7 +66,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 ## client_cert_type and server_cert_type
 
-The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
+The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250) are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
 
 ~~~
 /* Managed by IANA */
@@ -100,7 +100,7 @@ struct {
 } Certificate;
 ~~~
 
-As per [RFC7250], the client will send a list of certificate types in [endpoint]_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.
+As per [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250), the client will send a list of certificate types in endpoint_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.
 
 # did_methods extension
 
@@ -155,7 +155,7 @@ Server -> dlt2 : DID Resolve
 
 ## Client Hello
 
-In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446]. If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension.
+In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446). If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension.
 <!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
 ## Server Hello

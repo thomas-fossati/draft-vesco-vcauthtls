@@ -1,6 +1,6 @@
-# TODO - Your title
+# Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)
 
-This is the working area for the individual Internet-Draft, "TODO - Your title".
+This is the working area for the individual Internet-Draft, "draft-vesco-vcauthtls".
 
 * [Editor's Copy](https://Cybersecurity-LINKS.github.io/draft-vesco-vcauthtls/#go.draft-vesco-vcauthtls.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-vesco-vcauthtls)

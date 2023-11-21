@@ -85,11 +85,12 @@ Table of Contents
      5.4.  Certificate
      5.5.  Certificate Verify
    6.  Examples
-     6.1.  TLS Server Uses a VC
-     6.2.  TLS Client and Server Use VCs
-     6.3.  TLS Client Uses a VC and Server Uses an X.509 Certificate
-     6.4.  TLS Client Uses X.509 Certificate and Server Uses VC
-     6.5.  Renegotiation of DID Methods
+     6.1.  Server authentication with Verifiable Credential
+     6.2.  Mutual authentication with Verifiable Credentials
+     6.3.  Mutual authentication with Client using Verifiable
+           Credential and Server using X.509 Certificate
+     6.4.  Mutual authentication with Client using X.509 Certificate
+           and Server using Verifiable Credential
    7.  Security Considerations
    8.  IANA Considerations
    9.  Normative References
@@ -336,7 +337,7 @@ Table of Contents
 
    This section shows some message-exchanges examples.
 
-6.1.  TLS Server Uses a VC
+6.1.  Server authentication with Verifiable Credential
 
    This is an example of a client willing to receive and validate a VC
    from the server.  The client does not own an identity at the TLS
@@ -344,7 +345,7 @@ Table of Contents
    indicates in the EncryptedExtensions message that it selected a VC to
    insert in the Certificate message.
 
-6.2.  TLS Client and Server Use VCs
+6.2.  Mutual authentication with Verifiable Credentials
 
    This section shows an example where the TLS client as well as the TLS
    server use VCs for authentication.  In fact the server selects VC for
@@ -352,7 +353,8 @@ Table of Contents
    CertificateRequest message sends the did_methods extension with a set
    of DID methods both endpoints have in common.
 
-6.3.  TLS Client Uses a VC and Server Uses an X.509 Certificate
+6.3.  Mutual authentication with Client using Verifiable Credential and
+      Server using X.509 Certificate
 
    This example combines the use of a raw public key and an X.509
    certificate.  The client uses a VC for client authentication, and the
@@ -364,7 +366,8 @@ Table of Contents
    authentication.  The server then sends a list of DID methods of its
    choice.
 
-6.4.  TLS Client Uses X.509 Certificate and Server Uses VC
+6.4.  Mutual authentication with Client using X.509 Certificate and
+      Server using Verifiable Credential
 
    This example proposes a client authenticating with an X.509
    certificate and a server with a VC.  The client is capable to process
@@ -372,12 +375,6 @@ Table of Contents
    did_methods extension.  The server then decides to request an X.509
    certificate from the client and to provide a VC to authenticate with
    the client.
-
-6.5.  Renegotiation of DID Methods
-
-   We include an image of the message flow in this section if we decide
-   that the server sends an HRR when it does not have a DID compatible
-   with the list of DID Methods sent by the client.
 
 7.  Security Considerations
 

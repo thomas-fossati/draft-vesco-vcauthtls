@@ -1178,19 +1178,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-tls-server-uses-a-vc" class="internal xref">TLS Server Uses a VC</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-server-authentication-with-" class="internal xref">Server authentication with Verifiable Credential</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-tls-client-and-server-use-v" class="internal xref">TLS Client and Server Use VCs</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-mutual-authentication-with-" class="internal xref">Mutual authentication with Verifiable Credentials</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-tls-client-uses-a-vc-and-se" class="internal xref">TLS Client Uses a VC and Server Uses an X.509 Certificate</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-mutual-authentication-with-c" class="internal xref">Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
-                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-tls-client-uses-x509-certif" class="internal xref">TLS Client Uses X.509 Certificate and Server Uses VC</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
-                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-renegotiation-of-did-method" class="internal xref">Renegotiation of DID Methods</a></p>
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-mutual-authentication-with-cl" class="internal xref">Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential</a></p>
 </li>
             </ul>
 </li>
@@ -1385,44 +1382,36 @@ struct {
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
 <p id="section-6-1">This section shows some message-exchanges examples.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div id="tls-server-uses-a-vc">
+<div id="server-authentication-with-verifiable-credential">
 <section id="section-6.1">
-        <h3 id="name-tls-server-uses-a-vc">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-tls-server-uses-a-vc" class="section-name selfRef">TLS Server Uses a VC</a>
+        <h3 id="name-server-authentication-with-">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-server-authentication-with-" class="section-name selfRef">Server authentication with Verifiable Credential</a>
         </h3>
 <p id="section-6.1-1">This is an example of a client willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="tls-client-and-server-use-vcs">
+<div id="mutual-authentication-with-verifiable-credentials">
 <section id="section-6.2">
-        <h3 id="name-tls-client-and-server-use-v">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-tls-client-and-server-use-v" class="section-name selfRef">TLS Client and Server Use VCs</a>
+        <h3 id="name-mutual-authentication-with-">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-mutual-authentication-with-" class="section-name selfRef">Mutual authentication with Verifiable Credentials</a>
         </h3>
 <p id="section-6.2-1">This section shows an example where the TLS client as well as the TLS server use VCs for authentication. In fact the server selects VC for both client_cert_types and server_cert_types extensions and in the CertificateRequest message sends the did_methods extension with a set of DID methods both endpoints have in common.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="tls-client-uses-a-vc-and-server-uses-an-x509-certificate">
+<div id="mutual-authentication-with-client-using-verifiable-credential-and-server-using-x509-certificate">
 <section id="section-6.3">
-        <h3 id="name-tls-client-uses-a-vc-and-se">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-tls-client-uses-a-vc-and-se" class="section-name selfRef">TLS Client Uses a VC and Server Uses an X.509 Certificate</a>
+        <h3 id="name-mutual-authentication-with-c">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-mutual-authentication-with-c" class="section-name selfRef">Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate</a>
         </h3>
 <p id="section-6.3-1">This example combines the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either a VC or an X.509 certificate for client-side authentication. The server then selects X.509 to authenticate with the client and VC for client authentication. The server then sends a list of DID methods of its choice.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="tls-client-uses-x509-certificate-and-server-uses-vc">
+<div id="mutual-authentication-with-client-using-x509-certificate-and-server-using-verifiable-credential">
 <section id="section-6.4">
-        <h3 id="name-tls-client-uses-x509-certif">
-<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-tls-client-uses-x509-certif" class="section-name selfRef">TLS Client Uses X.509 Certificate and Server Uses VC</a>
+        <h3 id="name-mutual-authentication-with-cl">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-mutual-authentication-with-cl" class="section-name selfRef">Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential</a>
         </h3>
 <p id="section-6.4-1">This example proposes a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and to provide a VC to authenticate with the client.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="renegotiation-of-did-methods">
-<section id="section-6.5">
-        <h3 id="name-renegotiation-of-did-method">
-<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-renegotiation-of-did-method" class="section-name selfRef">Renegotiation of DID Methods</a>
-        </h3>
-<p id="section-6.5-1">We include an image of the message flow in this section if we decide that the server sends an HRR when it does not have a DID compatible with the list of DID Methods sent by the client.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

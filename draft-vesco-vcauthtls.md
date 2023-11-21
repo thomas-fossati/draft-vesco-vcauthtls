@@ -316,8 +316,7 @@ We include an image of the message flow in this section if we decide that the se
 
 <!-- We should discuss or include references to revocation processes -->
 
-All the security considerations presented in [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446) applies to this document as well.
-
+All the security considerations presented in [RFC8446] applies to this document as well.
 Further considerations, though, about the DID resolution process are worth discussing. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature of the DLT (i.e. the RoT for identity public keys).
 A reasonable solution to this attack could be to create a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node must be authenticated through an X.509 certificate. The number of DLT nodes within an IoT large scale systems is expected to be very low (i.e. one or a couple of nodes) with respect to the total number of IoT and edge nodes, so adopting X.509 certificates to authenticate those DLT nodes does not reduce the overall benefit in terms of lower complexity and cost associated to certificate management proper of SSI solution.
 In order to reduce the overhead of establishing a TLS channel with the DLT node for DID resolution, there are two possible approaches (i) leverage session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 or (ii) change the logic of DLT nodes and adopt a data protection solution (e.g. with HMAC to authenticate the data from DLT node).
@@ -333,31 +332,3 @@ In order to reduce the overhead of establishing a TLS channel with the DLT node 
 {:numbered="false"}
 
 TODO acknowledge.
-
-# References
-
-## Normative References
-
-  VC:
-   title: "Verifiable Credentials Data Model v2.0"
-   date: November 2023
-   author:
-      org: W3C
-   seriesinfo:
-      W3C TR/vc-data-model-2.0/
-   target:
-      https://www.w3.org/TR/2023/WD-vc-data-model-2.0-20231104/
-
-  DID:
-   title: "Decentralized Identifiers (DIDs) v1.0 Core architecture, data model, and representations"
-   date: July 2022
-   author:
-      org: W3C
-   seriesinfo:
-      W3C TR/did-core
-   target:
-      https://www.w3.org/TR/2022/REC-did-core-20220719/
-
-## Informative References
-
-TODO Informative refernces

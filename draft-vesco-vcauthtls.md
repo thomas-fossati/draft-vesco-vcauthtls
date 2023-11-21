@@ -11,10 +11,12 @@ consensus: true
 v: 3
 # area: AREA
 # workgroup: WG Working Group
+
 keyword:
  - next generatioon
  - unicorn
  - sparkling distributed ledger
+
 venue:
 #  group: WG
 #  type: Working Group
@@ -37,6 +39,24 @@ author:
     organization: Tampere University
     email: "nic.tuv@gmail.com"
 
+normative:
+  RFC7250:
+  RFC8446:
+
+informative:
+      DID:
+         title: "Decentralized Identifiers (DIDs) v1.0"
+         date: 2022-07
+         author:
+            -  ins: W3C
+               name: W3C
+               org: orgaization
+         seriesinfo:
+            "W3C Recommendation":
+            DOI: 10.1145/3372297.3423350
+            "W3C": https://www.w3.org/TR/did-core/
+
+
 --- abstract
 This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake.
 
@@ -44,7 +64,7 @@ This document defines a new certificate type and extension for the exchange of V
 
 # Introduction and motivation
 
-The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair ($sk, pk$). Then the node stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
+The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier {{!DID}}[DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair ($sk, pk$). Then the node stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
 A node's DID is a pointer to the distributed ledger where other nodes can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger.
 After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
 The combination of the key pair ($sk, pk$), the DID and at least one VC forms the identity compliant with the SSI model.
@@ -64,7 +84,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 ## client_cert_type and server_cert_type
 
-The TLS extensions client_certificate_type and server_certificate_type defined in [RFC7250] are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
+The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in {{!RFC7250}} are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
 
 ~~~
 /* Managed by IANA */
@@ -153,7 +173,7 @@ Server -> dlt2 : DID Resolve
 
 ## Client Hello
 
-In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446]. If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension. 
+In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446]. If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension.
 <!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
 ## Server Hello

@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>TODO - Your title</title>
-<meta content="Your Name Here" name="author">
+<title>Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)</title>
+<meta content="Andrea Vesco" name="author">
+<meta content="Leonardo Perugini" name="author">
+<meta content="Nicola Tuveri" name="author">
 <meta content="
        This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake. 
     " name="description">
@@ -1030,7 +1032,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Here</td>
+<td class="left">Vesco, et al.</td>
 <td class="center">Expires 24 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1050,16 +1052,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2024-05-24">24 May 2024</time></dd>
-<dt class="label-authors">Author:</dt>
+<dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">Y. N. Here</div>
-<div class="org">Your Organization Here</div>
+      <div class="author-name">A. Vesco</div>
+<div class="org">LINKS Foundation</div>
+</div>
+<div class="author">
+      <div class="author-name">L. Perugini</div>
+<div class="org">LINKS Foundation</div>
+</div>
+<div class="author">
+      <div class="author-name">N. Tuveri</div>
+<div class="org">Tampere University</div>
 </div>
 </dd>
 </dl>
 </div>
-<h1 id="title">TODO - Your title</h1>
+<h1 id="title">Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -1077,7 +1087,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
         which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/Cybersecurity-LINKS/draft-vesco-vcauthtls">https://github.com/Cybersecurity-LINKS/draft-vesco-vcauthtls</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1197,7 +1207,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1463,15 +1473,31 @@ In order to reduce the overhead of establishing a TLS channel with the DLT node 
 </div>
 <div id="authors-addresses">
 <section id="appendix-B">
-      <h2 id="name-authors-address">
-<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Your Name Here</span></div>
-<div dir="auto" class="left"><span class="org">Your Organization Here</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Andrea Vesco</span></div>
+<div dir="auto" class="left"><span class="org">LINKS Foundation</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:your.email@example.com" class="email">your.email@example.com</a>
+<a href="mailto:andrea.vesco@linksfoundation.com" class="email">andrea.vesco@linksfoundation.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Leonardo Perugini</span></div>
+<div dir="auto" class="left"><span class="org">LINKS Foundation</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:leonardo.perugini@linksfoundation.com" class="email">leonardo.perugini@linksfoundation.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Nicola Tuveri</span></div>
+<div dir="auto" class="left"><span class="org">Tampere University</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:nic.tuv@gmail.com" class="email">nic.tuv@gmail.com</a>
 </div>
 </address>
 </section>

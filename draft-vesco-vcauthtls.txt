@@ -2,13 +2,16 @@
 
 
 
-WG Working Group                                              Y. N. Here
-Internet-Draft                                    Your Organization Here
-Intended status: Informational                          21 November 2023
-Expires: 24 May 2024
+WG Working Group                                                A. Vesco
+Internet-Draft                                               L. Perugini
+Intended status: Informational                          LINKS Foundation
+Expires: 24 May 2024                                           N. Tuveri
+                                                      Tampere University
+                                                        21 November 2023
 
 
-                           TODO - Your title
+Transport Layer Security (TLS) Authentication with Verifiable Credential
+                                  (VC)
                       draft-vesco-vcauthtls-latest
 
 Abstract
@@ -35,7 +38,7 @@ About This Document
    https://example.com/WG.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/Cybersecurity-LINKS/draft-vesco-vcauthtls.
 
 Status of This Memo
 
@@ -91,7 +94,7 @@ Table of Contents
    8.  IANA Considerations
    9.  Normative References
    Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -424,8 +427,18 @@ Acknowledgments
 
    TODO acknowledge.
 
-Author's Address
+Authors' Addresses
 
-   Your Name Here
-   Your Organization Here
-   Email: your.email@example.com
+   Andrea Vesco
+   LINKS Foundation
+   Email: andrea.vesco@linksfoundation.com
+
+
+   Leonardo Perugini
+   LINKS Foundation
+   Email: leonardo.perugini@linksfoundation.com
+
+
+   Nicola Tuveri
+   Tampere University
+   Email: nic.tuv@gmail.com

@@ -1,5 +1,25 @@
 ---
-title: "Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)"
+###
+# Internet-Draft Markdown Template
+#
+# Rename this file from draft-todo-yourname-protocol.md to get started.
+# Draft name format is "draft-<yourname>-<workgroup>-<name>.md".
+#
+# For initial setup, you only need to edit the first block of fields.
+# Only "title" needs to be changed; delete "abbrev" if your title is short.
+# Any other content can be edited, but be careful not to introduce errors.
+# Some fields will be set automatically during setup if they are unchanged.
+#
+# Don't include "-00" or "-latest" in the filename.
+# Labels in the form draft-<yourname>-<workgroup>-<name>-latest are used by
+# the tools to refer to the current version; see "docname" for example.
+#
+# This template uses kramdown-rfc: https://github.com/cabo/kramdown-rfc
+# You can replace the entire file if you prefer a different format.
+# Change the file extension to match the format (.xml for XML, etc...)
+#
+###
+title: "TODO - Your title"
 abbrev: "TODO - Abbreviation"
 category: info
 
@@ -9,42 +29,39 @@ number:
 date:
 consensus: true
 v: 3
-# area: AREA
-# workgroup: WG Working Group
-
+area: AREA
+workgroup: WG Working Group
 keyword:
- - next generatioon
+ - next generation
  - unicorn
  - sparkling distributed ledger
-
 venue:
-#  group: WG
-#  type: Working Group
-#  mail: WG@example.com
-#  arch: https://example.com/WG
-  github: "Cybersecurity-LINKS/draft-vesco-vcauthtls"
-  latest: "https://Cybersecurity-LINKS.github.io/draft-vesco-perugini-tls-ssi/draft-vcauthtls.html"
+  group: WG
+  type: Working Group
+  mail: WG@example.com
+  arch: https://example.com/WG
+  github: USER/REPO
+  latest: https://example.com/LATEST
 
 author:
  -
-    fullname: "Andrea Vesco"
-    organization: LINKS Foundation
-    email: "andrea.vesco@linksfoundation.com"
- -
-    fullname: "Leonardo Perugini"
-    organization: LINKS Foundation
-    email: "leonardo.perugini@linksfoundation.com"
- -
-    fullname: "Nicola Tuveri"
-    organization: Tampere University
-    email: "nic.tuv@gmail.com"
+    fullname: Your Name Here
+    organization: Your Organization Here
+    email: your.email@example.com
+
+normative:
+
+informative:
+
 
 --- abstract
-This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake..
+
+This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake.
+
 
 --- middle
 
-# Introduction and motivation
+# Introduction
 
 The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair ($sk, pk$). Then the node stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
 A node's DID is a pointer to the distributed ledger where other nodes can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger.
@@ -58,9 +75,11 @@ SSI is emerging as an identity option for Internet of Thing and Edge nodes in co
 This document describes the extensions to TLS protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
 The extensions enable server-only and mutual authentication using VC, X.509, Raw Public Key or a combination of VC and X.509 certificates at the TLS endpoints. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allow TLS endpoints to use different distributed ledger technologies to store their public keys and during the TLS handshake for authentication purpose.
 
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
+
 
 # Extensions
 
@@ -95,8 +114,8 @@ struct {
 } CertificateEntry;
 
 struct {
-	opaque certificate_request_context<0..2^8-1>;
-	CertificateEntry certificate_list<0..2^24-1>;
+   opaque certificate_request_context<0..2^8-1>;
+   CertificateEntry certificate_list<0..2^24-1>;
 } Certificate;
 ~~~
 
@@ -180,7 +199,8 @@ When the selected certificate type is VC, the certificate_list in the Certificat
 
 ## Certificate Verify
 
-As discussed in [Section I](#introduction-and-motivation), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
+As discussed in [Section I](#introduction), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
+
 
 # Examples
 
@@ -316,19 +336,19 @@ We include an image of the message flow in this section if we decide that the se
 
 <!-- We should discuss or include references to revocation processes -->
 
-All the security considerations presented in [RFC8446] applies to this document as well.
+All the security considerations presented in [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446) applies to this document as well.
 Further considerations, though, about the DID resolution process are worth discussing. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature of the DLT (i.e. the RoT for identity public keys).
 A reasonable solution to this attack could be to create a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node must be authenticated through an X.509 certificate. The number of DLT nodes within an IoT large scale systems is expected to be very low (i.e. one or a couple of nodes) with respect to the total number of IoT and edge nodes, so adopting X.509 certificates to authenticate those DLT nodes does not reduce the overall benefit in terms of lower complexity and cost associated to certificate management proper of SSI solution.
 In order to reduce the overhead of establishing a TLS channel with the DLT node for DID resolution, there are two possible approaches (i) leverage session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 or (ii) change the logic of DLT nodes and adopt a data protection solution (e.g. with HMAC to authenticate the data from DLT node).
 
 # IANA Considerations
 
-<!--This document has no IANA actions.-->
+This document has no IANA actions.
+
 
 --- back
 
 # Acknowledgments
-
 {:numbered="false"}
 
 TODO acknowledge.

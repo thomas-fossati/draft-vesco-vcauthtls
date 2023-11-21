@@ -357,7 +357,7 @@ Table of Contents
    client_cert_type set to VC and the CertificateRequest message
    together with the did_methods extension with a set of DID Methods
    both endpoints have in common.  Both client and server send their
-   Verifiable Credential into their respective Certificate message.
+   Verifiable Credential into their respective Certificate messages.
 
 6.3.  Mutual authentication with Client using Verifiable Credential and
       Server using X.509 Certificate
@@ -374,7 +374,7 @@ Table of Contents
    message together with the did_methods extension with a set of DID
    Methods of its choice.  The server sends its X.509 certificate and
    the client its Verifiable Credential into their respective
-   Certificate message.
+   Certificate messages.
 
 6.4.  Mutual authentication with Client using X.509 Certificate and
       Server using Verifiable Credential

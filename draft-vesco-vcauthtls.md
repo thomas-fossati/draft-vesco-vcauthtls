@@ -19,7 +19,7 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
+title: "Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)"
 abbrev: "TODO - Abbreviation"
 category: info
 
@@ -40,14 +40,24 @@ venue:
   type: Working Group
   mail: WG@example.com
   arch: https://example.com/WG
-  github: USER/REPO
+  github: Cybersecurity-LINKS/draft-vesco-vcauthtls
   latest: https://example.com/LATEST
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Andrea Vesco
+    organization: LINKS Foundation
+    email: andrea.vesco@linksfoundation.com
+
+ -
+    fullname: Leonardo Perugini
+    organization: LINKS Foundation
+    email: leonardo.perugini@linksfoundation.com
+
+ -
+    fullname: Nicola Tuveri
+    organization: Tampere University
+    email: nic.tuv@gmail.com
 
 normative:
 

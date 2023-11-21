@@ -1147,7 +1147,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-extensions" class="internal xref">Extensions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-client_cert_type-and-server" class="internal xref">client_cert_type and server_cert_type</a></p>
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-client_certificate_type-and" class="internal xref">client_certificate_type and server_certificate_type</a></p>
 </li>
             </ul>
 </li>
@@ -1243,10 +1243,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-extensions">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-extensions" class="section-name selfRef">Extensions</a>
       </h2>
-<div id="clientcerttype-and-servercerttype">
+<div id="clientcertificatetype-and-servercertificatetype">
 <section id="section-3.1">
-        <h3 id="name-client_cert_type-and-server">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_cert_type-and-server" class="section-name selfRef">client_cert_type and server_cert_type</a>
+        <h3 id="name-client_certificate_type-and">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_certificate_type-and" class="section-name selfRef">client_certificate_type and server_certificate_type</a>
         </h3>
 <p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a> are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.1-2">

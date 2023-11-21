@@ -76,7 +76,7 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Extensions
-     3.1.  client_cert_type and server_cert_type
+     3.1.  client_certificate_type and server_certificate_type
    4.  did_methods extension
    5.  TLS Client and Server Handshake
      5.1.  Client Hello
@@ -159,7 +159,7 @@ Table of Contents
 
 3.  Extensions
 
-3.1.  client_cert_type and server_cert_type
+3.1.  client_certificate_type and server_certificate_type
 
    The TLS extensions client_certificate_type and
    server_certificate_type defined in RFC7250

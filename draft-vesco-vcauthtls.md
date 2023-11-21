@@ -216,7 +216,7 @@ As discussed in [Section I](#introduction), a Holder wraps its own Verifiable Cr
 
 This section shows some message-exchanges examples.
 
-## TLS Server Uses a VC
+## Server authentication with Verifiable Credential
 
 This is an example of a client willing to receive and validate a VC from the server. The client does not own an identity at the TLS level and so omits the client_cert_type extension. The server indicates in the EncryptedExtensions message that it selected a VC to insert in the Certificate message.
 
@@ -244,7 +244,7 @@ Client -> Server : { Finished }
 
 <!-- ![srvr-vc](images/srvr-vc.svg) -->
 
-## TLS Client and Server Use VCs
+## Mutual authentication with Verifiable Credentials
 
 This section shows an example where the TLS client as well as the TLS server use VCs for authentication. In fact the server selects VC for both client_cert_types and server_cert_types extensions and in the CertificateRequest message sends the did_methods extension with a set of DID methods both endpoints have in common.
 
@@ -276,8 +276,7 @@ Server -> dlt2 : DID Resolve
 
 <!-- ![mutual-vc](images/mutual-vc.svg) -->
 
-## TLS Client Uses a VC and Server Uses an X.509 Certificate
-
+## Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate
 This example combines the use of a raw public key and an X.509 certificate. The client uses a VC for client authentication, and the server provides an X.509 certificate. The client expresses its ability to process an X.509 certificate or a raw public key from the server. In addtion it is willing to use either a VC or an X.509 certificate for client-side authentication. The server then selects X.509 to authenticate with the client and VC for client authentication. The server then sends a list of DID methods of its choice.
 
 <!--
@@ -306,7 +305,7 @@ Server -> IOTA : DID Resolve
 
 <!-- ![clnt-vc-srvr-x509](images/clnt-vc-srvr-x509.svg) -->
 
-## TLS Client Uses X.509 Certificate and Server Uses VC
+## Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential
 
 This example proposes a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and to provide a VC to authenticate with the client.
 
@@ -336,9 +335,11 @@ Client -> Server : { Finished }
 
 <!-- ![clnt-x509-srvr-vc](images/clnt-x509-srvr-vc.svg) -->
 
+<!--
 ## Renegotiation of DID Methods
 
-We include an image of the message flow in this section if we decide that the server sends an HRR when it does not have a DID compatible with the list of DID Methods sent by the client.
+server sends an HRR when it does not have a DID compatible with the list of DID Methods sent by the client.
+-->
 
 # Security Considerations
 

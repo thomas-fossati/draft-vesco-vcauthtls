@@ -93,7 +93,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 # Extensions
 
-## client_cert_type and server_cert_type
+## client_certificate_type and server_certificate_type
 
 The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250) are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
 

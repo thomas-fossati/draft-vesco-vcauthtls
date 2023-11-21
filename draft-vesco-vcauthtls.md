@@ -218,7 +218,7 @@ This section shows some examples of TLS handshakes using different combinations 
 
 ## Server authentication with Verifiable Credential
 
-This example shows a TLS 1.3 handshake with server authentication. The server selects a Verifiable Credential for authentication. 
+This example shows a TLS 1.3 handshake with server authentication. The server selects a Verifiable Credential for authentication.
 The client does not own an identity at the TLS level, therefore omits the client_certificate_type extension. The server indicates in the EncryptedExtensions message a
 server_certificate_type equal to VC and insert the Verifiable Credential into the Certificate message.
 

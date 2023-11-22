@@ -155,6 +155,48 @@ The list of existing DID Methods is currently maintained by the W3C in the [did-
 
 The Figure below shows the basic full TLS handshake:
 
+~~~~~
+DLT	      Client                              Server            DLT
+
+      Key  ^ ClientHello
+      Exch | + server_cert_types*
+	   | + client_cert_types*
+	   | + did_methods*
+	   | + signature_algorithms
+	   v + key_share*  -------->
+	    				    ServerHello  ^ Key
+	                                    + key_share  v Exch,
+	                           {EncryptedExtensions} ^ Server
+	                          {+ server_cert_types*} | Params
+	                          {+ client_cert_types*} |
+	      			   {CertificateRequest*} |
+	                                {+ did_methods*} v		
+	      				  {Certificate*} ^
+	                            {CertificateVerify*} | Auth
+	                             	      {Finished} v
+	                   <-------- [Application Data*]
+  DID Resolve  	
+  <========== 	
+ 	   ^ {Certificate*}
+      Auth | {CertificateVerify*}	 		
+  	   v {Finished}    -------->
+							DID Resolve
+					                ==========>
+	     [Application Data] <---> [Application Data]
+
+        +  Indicates noteworthy extensions sent in the
+           previously noted message.
+        *  Indicates optional or situation-dependent
+           messages/extensions that are not always sent.
+        {} Indicates messages protected using keys
+           derived from a
+           [sender]_handshake_traffic_secret.
+        [] Indicates messages protected using keys
+           derived from [sender]_application_traffic_secret_N.
+
+        Figure 1: Message Flow for full TLS Handshake
+~~~~~
+
 <!--
 ```
 @startuml full-hs

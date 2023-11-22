@@ -49,7 +49,7 @@ informative:
 
 --- abstract
 
-This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake.
+This document defines a new certificate type and extension for the exchange of Verifiable Credentials in the handshake of the Transport Layer Security (TLS) protocol. The new certificate type is intended to add the Verifiable Credentials as a new means of authentication. The resulting authentication process leverages a distributed ledger as the root-of-trust of the TLS endpoints' public keys. The endpoints can use different distributed ledger technologies to store their public keys and to perform the TLS handshake.
 
 
 --- middle
@@ -60,14 +60,13 @@ The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a
 A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains _pk_, stored in the distributed ledger.
 After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
 The combination of the key pair (_sk_, _pk_), the DID and at least one VC forms the identity compliant with the SSI model.
-A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting node.
+A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the validity and authenticity of the VP and the inner VC before granting or denying access to the requesting node.
 <!-- The SSI model subtends the peer-to-peer model of interaction where both types of authentication are possible using VP; one node authenticates the other, or the nodes can authenticate each other. -->
-The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticate the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occours when also the server node exchange its VP with the client node again at application layer.
+The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticates the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occurs when also the server node exchanges its VP with the client node again at application layer.
 
-SSI is emerging as an identity option for Internet of Thing and Edge nodes in computing continuum environments. In these scenarios, (mutual) authentication with VP can take place directly at the TLS protocol layer, enabling the the peer-to-peer interaction model envisaged by the SSI model.
-This document describes the extensions to TLS protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
-The extensions enable server-only and mutual authentication using VC, X.509, Raw Public Key or a combination of VC and X.509 certificates at the TLS endpoints. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allow TLS endpoints to use different distributed ledger technologies to store their public keys and during the TLS handshake for authentication purpose.
-
+SSI is emerging as an identity option for Internet of Thing and Edge nodes in computing continuum environments. In these scenarios, (mutual) authentication with VP can take place directly at the TLS protocol layer, enabling the peer-to-peer interaction model envisaged by the SSI model.
+This document describes the extensions to TLS handshake protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
+The extensions enable server and mutual authentication using VC, X.509, Raw Public Key or a combination of two of them. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allows TLS endpoints to use different distributed ledger technologies to store their public keys and to authenticate the peer.
 
 # Conventions and Definitions
 

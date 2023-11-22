@@ -181,31 +181,6 @@ DLT	     Client                               Server           DLT
 Figure 1: Message Flow for full TLS Handshake
 ~~~~~
 
-<!--
-```
-@startuml full-hs
-database DLT as dlt1 order 1
-database DLT as dlt2 order 4
-participant Client order 2
-participant Server order 3
-skinparam sequenceMessageAlign direction
-skinparam ParticipantPadding 100
-Client -> Server : Client Hello \n+ client_cert_types* \n+ server_cert_types* \n+ key_share* \n+ sig_algs* \n+ did_methods
-Server -> Client : Server Hello \n+ key_share*
-Server -> Client : { Encrypted Extensions \n+ client_cert_types* \n+ server_cert_types* }
-Server -> Client : { Certificate request* \n+ did_methods* }
-Server -> Client : { Certificate* }
-Server -> Client : { Certificate Verify* }
-Server -> Client : { Finished }
-Client -> dlt1 : DID Resolve
-Client -> Server : { Certificate* }
-Client -> Server : { Certificate Verify* }
-Client -> Server : { Finished }
-Server -> dlt2 : DID Resolve
-@enduml
-```
--->
-
 ## ClientHello message
 
 To express support for ``VC`` certificate type, a client MUST include the extension of type ``client_certificate_type`` or ``server_certificate_type`` in the extended ``ClientHello`` message as described in Section 4.1.2 of {{!RFC8446}}. If the client sends the ``server_certificate_type`` extension indicating ``VC``, it MUST also send the ``did_methods`` extension.
@@ -245,6 +220,7 @@ This section shows some examples of TLS handshakes using different combinations 
 This example shows a TLS 1.3 handshake with server authentication. The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types. In addition, the client sends the ``did_methods`` extension with the list of supported DID Methods. The client does not own an identity at the TLS level, therefore omits the ``client_certificate_type`` extension.
 The server selects ``VC`` certificate type, sends the EncryptedExtensions message with
 the ``server_certificate_type`` extension set to VC, and sends its Verifiable Credential into the Certificate message.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate it.
 
 ~~~~~
 DLT	    Client                                              Server
@@ -266,31 +242,6 @@ DLT	    Client                                              Server
 
 Figure 2: TLS Server Uses Verifiable Credential
 ~~~~~
-After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate it.
-
-<!--
-```
-@startuml srvr-vc
-skinparam sequenceMessageAlign direction
-skinparam ParticipantPadding 100
-
-database IOTA order 1
-participant Client order 2
-participant Server order 3
-
-Client -> Server : Client Hello \n+ server_cert_types*=(VC,X.509) \n+ did_methods*=(iota,btcr) \n+ key_share* \n+ sig_algs*
-Server -> Client : Server Hello \n+ key_share*
-Server -> Client : { Encrypted Extensions \n+ server_cert_types*=VC }
-Server -> Client : { Certificate* }
-Server -> Client : { Certificate Verify* }
-Server -> Client : { Finished }
-Client -> IOTA : DID Resolve
-Client -> Server : { Finished }
-@enduml
-```
--->
-
-<!-- ![srvr-vc](images/srvr-vc.svg) -->
 
 ## Mutual authentication with Verifiable Credentials
 
@@ -329,39 +280,12 @@ DLT	   Client                                    Server         DLT
 Figure 3: TLS Client and TLS Server Use Verifiable Credentials
 ~~~~~
 
-<!-- TODO description of DID resolve at client and server side -->
-
-<!--
-```
-@startuml mutual-vc
-database IOTA as dlt1 order 1
-database IOTA as dlt2 order 4
-participant Client order 2
-participant Server order 3
-skinparam sequenceMessageAlign direction
-skinparam ParticipantPadding 100
-
-Client -> Server : Client Hello \n+ client_cert_types*=(VC,X.509,RawPublicKey) \n+ server_cert_types*=(X.509,VC,RawPublicKey) \n+ did_methods=(iota,btcr) \n+ key_share* \n+ sig_algs*
-Server -> Client : Server Hello \n+ key_share*
-Server -> Client : { Encrypted Extensions \n+ client_cert_types*=VC \n+ server_cert_types*=VC }
-Server -> Client : { Certificate request* \n+ did_methods*=(iota) }
-Server -> Client : { Certificate* }
-Server -> Client : { Certificate Verify* }
-Server -> Client : { Finished }
-Client -> dlt1 : DID Resolve
-Client -> Server : { Certificate* }
-Client -> Server : { Certificate Verify* }
-Client -> Server : { Finished }
-Server -> dlt2 : DID Resolve
-@enduml
-```
--->
-
 ## Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate
 
 This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
 The client sends the ``server_certificate_type`` extension indicating ``X.509`` certificate types. The client also sends the ``client_certificate_type`` extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
 The server sends the ``server_certificate_type`` set to ``X.509``, the ``client_certificate_type`` set to ``VC`` and the ``CertificateRequest`` message with the ``did_methods`` extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective ``Certificate`` messages.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the server resolves the client DID to retrieve the client _pk_ and authenticate it.
 
 ~~~~~	
 Client                                               Server         DLT
@@ -390,39 +314,13 @@ client_certificate_type=(VC,X.509)
 Figure 4: TLS Client Uses a Verifiable Credential and TLS Server
 Uses an X.509 Certificate
 ~~~~~
-After receiving the ``CertificateVerify`` and ``Finished`` messages, the server resolves the client DID to retrieve the client _pk_ and authenticate it.
-
-<!--
-```
-@startuml clnt-vc-srvr-x509
-participant Client order 2
-participant Server order 3
-database IOTA order 4
-skinparam sequenceMessageAlign direction
-skinparam ParticipantPadding 100
-
-Client -> Server : Client Hello \n+ client_cert_types*=(X.509, VC) \n+ server_cert_types*=(X.509, RawPublicKey) \n+ key_share* \n+ sig_algs*
-Server -> Client : Server Hello \n+ key_share*
-Server -> Client : { Encrypted Extensions \n+ client_cert_types*=VC \n+ server_cert_types*=X.509 }
-Server -> Client : { Certificate request* \n + did_methods*=(iota,btcr)}
-Server -> Client : { Certificate* }
-Server -> Client : { Certificate Verify* }
-Server -> Client : { Finished }
-Client -> Server : { Certificate* }
-Client -> Server : { Certificate Verify* }
-Client -> Server : { Finished }
-Server -> IOTA : DID Resolve
-@enduml
-```
--->
-
-<!-- ![clnt-vc-srvr-x509](images/clnt-vc-srvr-x509.svg) -->
 
 ## Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential
 
 This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
 The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types along with the ``did_methods`` extension containing the list of supported DID Methods. The client also sends the ``client_certificate_type`` extension indicating its capability to provide only an X.509 certificate.
 The server sends the ``server_certificate_type`` set to ``VC``, the ``client_certificate_type`` set to ``X.509`` and the ``CertificateRequest`` message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective ``Certificate`` messages.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate the client.
 
 ~~~~~
 DLT	     Client                                              Server
@@ -451,32 +349,6 @@ DLT	     Client                                              Server
 Figure 5: TLS Client Uses an X.509 Certificate and TLS Server Uses a
 Verifiable Credential
 ~~~~~
-
-After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate the client.
-
-<!--
-```
-@startuml clnt-x509-srvr-vc
-participant Client order 2
-participant Server order 3
-database IOTA order 1
-skinparam sequenceMessageAlign direction
-skinparam ParticipantPadding 100
-
-Client -> Server : Client Hello \n+ client_cert_types*=(X.509, RawPublicKey) \n+ server_cert_types*=(VC, X.509) \n+ key_share* \n+ sig_algs* \n+ did_methods*=(iota)
-Server -> Client : Server Hello \n+ key_share*
-Server -> Client : { Encrypted Extensions \n+ client_cert_types*=X.509 \n+ server_cert_types*=VC }
-Server -> Client : { Certificate request* }
-Server -> Client : { Certificate* }
-Server -> Client : { Certificate Verify* }
-Server -> Client : { Finished }
-Client -> IOTA : DID Resolve
-Client -> Server : { Certificate* }
-Client -> Server : { Certificate Verify* }
-Client -> Server : { Finished }
-@enduml
-```
--->
 
 <!--
 ## Renegotiation of DID Methods

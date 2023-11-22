@@ -2,7 +2,7 @@
 
 
 
-Working Group                                                   A. Vesco
+WG                                                              A. Vesco
 Internet-Draft                                               L. Perugini
 Intended status: Informational                          LINKS Foundation
 Expires: 25 May 2024                                           N. Tuveri

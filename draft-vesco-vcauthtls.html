@@ -12,9 +12,10 @@
        This document defines a new certificate type and extension for the exchange of Verifiable Credentials (VCs) in Transport Layer Security (TLS). The new certificate type is intended to add the VC as a new means of authentication. The validation process of the VC uses a distributed ledger as the Root of Trust (RoT) of the TLS node's public keys. The nodes can use different distributed ledger technologies to store their public key and to perform the TLS handshake. 
     " name="description">
 <meta content="xml2rfc 3.18.2" name="generator">
-<meta content="next generation" name="keyword">
-<meta content="unicorn" name="keyword">
-<meta content="sparkling distributed ledger" name="keyword">
+<meta content="TLS" name="keyword">
+<meta content="VC" name="keyword">
+<meta content="DID" name="keyword">
+<meta content="DLT" name="keyword">
 <meta content="draft-vesco-vcauthtls-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.18.2
@@ -1041,7 +1042,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">WG Working Group</dd>
+<dd class="workgroup">Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-vesco-vcauthtls-latest</dd>
 <dt class="label-published">Published:</dt>
@@ -1147,7 +1148,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-extensions" class="internal xref">Extensions</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-client_certificate_type-and" class="internal xref">client_certificate_type and server_certificate_type</a></p>
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-client_certificate_type-and" class="internal xref">client_certificate_type and server_certificate_type extensions</a></p>
 </li>
             </ul>
 </li>
@@ -1158,24 +1159,24 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-tls-client-and-server-hands" class="internal xref">TLS Client and Server Handshake</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-client-hello" class="internal xref">Client Hello</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-clienthello-message" class="internal xref">ClientHello message</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-server-hello" class="internal xref">Server Hello</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-serverhello-message" class="internal xref">ServerHello message</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-certificate-request" class="internal xref">Certificate Request</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-certificaterequest-message" class="internal xref">CertificateRequest message</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-certificate" class="internal xref">Certificate</a></p>
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-certificate-message" class="internal xref">Certificate message</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-certificate-verify" class="internal xref">Certificate Verify</a></p>
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-certificateverify-message" class="internal xref">CertificateVerify message</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-tls-handshake-examples" class="internal xref">TLS handshake Examples</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-server-authentication-with-" class="internal xref">Server authentication with Verifiable Credential</a></p>
@@ -1243,12 +1244,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-extensions">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-extensions" class="section-name selfRef">Extensions</a>
       </h2>
-<div id="clientcertificatetype-and-servercertificatetype">
+<div id="clientcertificatetype-and-servercertificatetype-extensions">
 <section id="section-3.1">
         <h3 id="name-client_certificate_type-and">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_certificate_type-and" class="section-name selfRef">client_certificate_type and server_certificate_type</a>
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_certificate_type-and" class="section-name selfRef">client_certificate_type and server_certificate_type extensions</a>
         </h3>
-<p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a> are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a> are used to negotiate the type of <code>Certificate</code> messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called <code>VC</code>, for the TLS 1.3 handshake. The updated <code>CertificateType</code> enumeration, the corresponding addition to the <code>CertificateEntry</code> structure, and the <code>Certificate</code> message structure are shown below.
+In the current version of the document <code>VC</code> certificate type is set to 224, one of the values indicated by IANA for private use. <code>CertificateType</code> values are sent in the <code>server_certificate_type</code> and <code>client_certificate_type</code> extensions, and the <code>CertificateEntry</code> structures are included in the certificate chain sent in the <code>Certificate</code> message.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.1-2">
 <pre>
 /* Managed by IANA */
@@ -1282,7 +1284,7 @@ struct {
 } Certificate;
 </pre><a href="#section-3.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-3.1-3">As per <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a>, the client will send a list of certificate types in endpoint_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">As per <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a>, the client will send a list of certificate types in <code>[endpoint]_certificate_type</code> extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the <code>EncryptedExtensions</code> message. Note that there is no requirement for the negotiated value to be the same in <code>client_certificate_type</code> and <code>server_certificate_type</code> extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1292,7 +1294,7 @@ struct {
       <h2 id="name-did_methods-extension">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-did_methods-extension" class="section-name selfRef">did_methods extension</a>
       </h2>
-<p id="section-4-1">This section defines the did_methods extension, used as part of an extended TLS 1.3 handshake when VC certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client <span class="bcp14">MUST</span> send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server <span class="bcp14">MUST</span> send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the extension_data field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">This section defines the <code>did_methods</code> extension, used as part of an extended TLS 1.3 handshake when <code>VC</code> certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client <span class="bcp14">MUST</span> send this extension in the extended <code>ClientHello</code> message only when it indicates Verifiable Credential support in the <code>server_certificate_type</code> extension. The server <span class="bcp14">MUST</span> send this extension in a <code>CertificateRequest</code> message only if it indicates Verifiable Credential in <code>client_certificate_type</code> extension. The extension format which uses the <code>extension_data</code> field, is used to carry the <code>DIDMethodList</code> structure. The structure of this new extension is shown below.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4-2">
 <pre>
 enum {
@@ -1308,7 +1310,7 @@ struct {
 } DIDMethodList
 </pre><a href="#section-4-2" class="pilcrow">¶</a>
 </div>
-<p id="section-4-3">The list of existing DID Methods is currently maintained by the W3C in the <a href="https://www.w3.org/TR/did-spec-registries/#did-methods">did-registry</a>. Each DID Method is expressed in the form of a string. This document proposes the DIDMethod enum to map these strings into integer values.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-3">The list of existing DID Methods is currently maintained by the W3C in <a href="https://www.w3.org/TR/did-spec-registries/#did-methods">did-registry</a>. Each DID Method is expressed in the form of a string. This document proposes the <code>DIDMethod</code> enum to map these strings into integer values.<a href="#section-4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tls-client-and-server-handshake">
@@ -1316,7 +1318,7 @@ struct {
       <h2 id="name-tls-client-and-server-hands">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-tls-client-and-server-hands" class="section-name selfRef">TLS Client and Server Handshake</a>
       </h2>
-<p id="section-5-1">The Figure below shows the basic full TLS handshake:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">Figure 1 shows the message flow for full TLS handshake.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5-2">
 <pre>
 DLT           Client                              Server            DLT
@@ -1360,79 +1362,80 @@ DLT           Client                              Server            DLT
         Figure 1: Message Flow for full TLS Handshake
 </pre><a href="#section-5-2" class="pilcrow">¶</a>
 </div>
-<div id="client-hello">
+<div id="clienthello-message">
 <section id="section-5.1">
-        <h3 id="name-client-hello">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-client-hello" class="section-name selfRef">Client Hello</a>
+        <h3 id="name-clienthello-message">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-clienthello-message" class="section-name selfRef">ClientHello message</a>
         </h3>
-<p id="section-5.1-1">In order to express support for VC certificate type, a client <span class="bcp14">MUST</span> include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a>. If the client sends the server_certificate_type extension indicating VC support, it <span class="bcp14">MUST</span> also send the did_methods extension.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">To express support for <code>VC</code> certificate type, a client <span class="bcp14">MUST</span> include the extension of type <code>client_certificate_type</code> or <code>server_certificate_type</code> in the extended <code>ClientHello</code> message as described in Section 4.1.2 of <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a>. If the client sends the <code>server_certificate_type</code> extension indicating <code>VC</code>, it <span class="bcp14">MUST</span> also send the <code>did_methods</code> extension.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="server-hello">
+<div id="serverhello-message">
 <section id="section-5.2">
-        <h3 id="name-server-hello">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-server-hello" class="section-name selfRef">Server Hello</a>
+        <h3 id="name-serverhello-message">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-serverhello-message" class="section-name selfRef">ServerHello message</a>
         </h3>
-<p id="section-5.2-1">When the server receives the ClientHello containing the server_certificate_type extension and/or the client_certificate_type extension, the following scenarios are possible:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">When the server receives the <code>ClientHello</code> message containing the <code>server_certificate_type</code> extension and/or the <code>client_certificate_type</code> extension, the following scenarios are possible:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-2.1">
-            <p id="section-5.2-2.1.1">The server does not support the extensions, omits them in EncryptedExtensions and the handshake proceeds with X.509 authentication.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.1.1">The server does not support the extensions, omits them in <code>EncryptedExtensions</code> and the handshake proceeds with X.509 certificate(s).<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate".<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.2.1">The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type <code>unsupported_certificate</code>.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.3">
-            <p id="section-5.2-2.3.1">Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server <span class="bcp14">MUST</span> terminate the session with a fatal alert of type "missing_extension".<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.3.1">Both client and server indicate support for the <code>VC</code> certificate type. The server selects <code>VC</code> certificate type, but the client did not send the <code>did_methods</code> extension in addition to the <code>server_certificate_type</code> extension. The server <span class="bcp14">MUST</span> terminate the session with a fatal alert of type <code>missing_extension</code>.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.4">
-            <p id="section-5.2-2.4.1">Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client, listed in the did_methods extension in ClientHello message. {It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends a HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs in which it has a DID.}<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.4.1">Both client and server indicate support for the <code>VC</code> certificate type. The server selects <code>VC</code> certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the <code>did_methods</code> extension in the <code>ClientHello</code> message. The server terminates the session.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-2.5">
-            <p id="section-5.2-2.5.1">Both client and server indicate support for the VC certificate type, the server <span class="bcp14">MAY</span> select the first (most preferred) certificate type from the client's list that is supported by both peers. It <span class="bcp14">MAY</span> include the client_certificate_type in EncryptedExtensions and then request a certificate from the client. In case the server selects VC certificate type, <span class="bcp14">MUST</span> also send the did_methods extension in the CertificateRequest message.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.5.1">Both client and server indicate support for the <code>VC</code> certificate type, the server <span class="bcp14">MAY</span> select the first (most preferred) certificate type from the client's list that is supported by both endpoints. It <span class="bcp14">MAY</span> include the <code>client_certificate_type</code> in the <code>EncryptedExtensions</code> message to request a certificate from the client. In case the server selects <code>VC</code> certificate type, it <span class="bcp14">MUST</span> also send the <code>did_methods</code> extension in the <code>CertificateRequest</code> message.<a href="#section-5.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
-<div id="certificate-request">
+<div id="certificaterequest-message">
 <section id="section-5.3">
-        <h3 id="name-certificate-request">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-certificate-request" class="section-name selfRef">Certificate Request</a>
+        <h3 id="name-certificaterequest-message">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-certificaterequest-message" class="section-name selfRef">CertificateRequest message</a>
         </h3>
-<p id="section-5.3-1">The server sends this message to request client authentication. It <span class="bcp14">MUST</span> include the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contained the did_methods extension, the server <span class="bcp14">MUST</span> send a list of DID Methods client and server have in common. If the client did not send the did_methods extension the server <span class="bcp14">MUST</span> select a list of DID Methods it supports. A client that processes this message that does not have a DID compatible with the DID Methods selected by the server <span class="bcp14">MUST</span> send a Certificate message containing no certificates, i.e. with the certificate list field having length 0.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-1">The server sends the <code>CertificateRequest</code> message to request client authentication. It <span class="bcp14">MUST</span> include the <code>did_methods</code> extension if it indicates <code>VC</code> in the <code>client_certificate_type</code> extension. If the <code>ClientHello</code> contains the <code>did_methods</code> extension, the server <span class="bcp14">MUST</span> send a list of DID Methods client and server have in common. If the client does not send the <code>did_methods</code> extension the server <span class="bcp14">MUST</span> select a list of DID Methods it supports. A client that processes the the <code>CertificateRequest</code> message that does not own a DID compatible with the DID Methods selected by the server <span class="bcp14">MUST</span> send a <code>Certificate</code> message containing no certificates, i.e. with the <code>certificate_list</code> field having length 0.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="certificate">
+<div id="certificate-message">
 <section id="section-5.4">
-        <h3 id="name-certificate">
-<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-certificate" class="section-name selfRef">Certificate</a>
+        <h3 id="name-certificate-message">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-certificate-message" class="section-name selfRef">Certificate message</a>
         </h3>
-<p id="section-5.4-1">When the selected certificate type is VC, the certificate_list in the Certificate message <span class="bcp14">MUST</span> contain no more than one CertificateEntry with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential <span class="bcp14">SHOULD</span> be CBOR encoded. After decoding, the endpoint <span class="bcp14">MUST</span> follow the procedure in <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC</a> to verify the Verifiable Credential.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-1">When the selected certificate type is <code>VC</code>, the <code>certificate_list</code> in the <code>Certificate</code> message <span class="bcp14">MUST</span> contain no more than one <code>CertificateEntry</code> with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential <span class="bcp14">SHOULD</span> be CBOR encoded. After decoding, the endpoint <span class="bcp14">MUST</span> follows the procedure in <a href="https://www.w3.org/TR/vc-data-model-2.0/">VC</a> to verify the Verifiable Credential.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="certificate-verify">
+<div id="certificateverify-message">
 <section id="section-5.5">
-        <h3 id="name-certificate-verify">
-<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-certificate-verify" class="section-name selfRef">Certificate Verify</a>
+        <h3 id="name-certificateverify-message">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-certificateverify-message" class="section-name selfRef">CertificateVerify message</a>
         </h3>
-<p id="section-5.5-1">As discussed in <a href="#introduction" class="auto internal xref">Section 1</a>, a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">As discussed in <a href="#introduction" class="auto internal xref">Section 1</a>, an Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes. During the TLS handshake, when the selected certificate type is <code>VC</code>, the subsequent <code>CertificateVerify</code> message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the <code>Certificate</code> message.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="examples">
+<div id="tls-handshake-examples">
 <section id="section-6">
-      <h2 id="name-examples">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      <h2 id="name-tls-handshake-examples">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-tls-handshake-examples" class="section-name selfRef">TLS handshake Examples</a>
       </h2>
-<p id="section-6-1">This section shows some examples of TLS handshakes using different combinations of authentication means.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">This section shows some examples of TLS handshakes using different combinations of certificate types.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="server-authentication-with-verifiable-credential">
 <section id="section-6.1">
         <h3 id="name-server-authentication-with-">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-server-authentication-with-" class="section-name selfRef">Server authentication with Verifiable Credential</a>
         </h3>
-<p id="section-6.1-1">This example shows a TLS 1.3 handshake with server authentication. The server selects a Verifiable Credential for authentication.
-The client does not own an identity at the TLS level, therefore omits the client_certificate_type extension. The server indicates in the EncryptedExtensions message a
-server_certificate_type equal to VC and insert the Verifiable Credential into the Certificate message.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">This example shows a TLS 1.3 handshake with server authentication. The client sends the <code>server_certificate_type</code> extension indicating both <code>VC</code> and <code>X.509</code> certificate types. In addition, the client sends the <code>did_methods</code> extension with the list of supported DID Methods. The client does not own an identity at the TLS level, therefore omits the <code>client_certificate_type</code> extension.
+The server selects <code>VC</code> certificate type, sends the EncryptedExtensions message with
+the <code>server_certificate_type</code> extension set to VC, and sends its Verifiable Credential into the Certificate message.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate it.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual-authentication-with-verifiable-credentials">
@@ -1440,8 +1443,10 @@ server_certificate_type equal to VC and insert the Verifiable Credential into th
         <h3 id="name-mutual-authentication-with-">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-mutual-authentication-with-" class="section-name selfRef">Mutual authentication with Verifiable Credentials</a>
         </h3>
-<p id="section-6.2-1">This example shows a TLS 1.3 handshake with mutual authenitcation. Both client and server select their  Verifiable Credential for authentication.
-The client sends the did_methods extension along with the server_certificate_type extension set to VC as the first option. The server sends the server_certificate_type set to VC, the client_cert_type set to VC and the CertificateRequest message together with the did_methods extension with a set of DID Methods both endpoints have in common. Both client and server send their Verifiable Credential into their respective Certificate messages..<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">This example shows a TLS 1.3 handshake with mutual authentication where both client and server authenticate the peer using Verifiable Credentials.
+The client sends the <code>server_certificate_type</code> extension indicating both <code>VC</code> and <code>X.509</code> certificate types along with the <code>did_methods</code> extension containing the list of supported DID Methods. The client also sends the <code>client_certificate_type</code> extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
+The server sends the <code>server_certificate_type</code> set to <code>VC</code>, the <code>client_certificate_type</code> set to <code>VC</code> and the <code>CertificateRequest</code> message with the <code>did_methods</code> extension containig a set of DID Methods in common with the client. Client and server send their Verifiable Credential into their respective <code>Certificate</code> messages.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client and then the server resolve the peer's DID to retrieve the associated <em>pk</em> and authenticate each other.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual-authentication-with-client-using-verifiable-credential-and-server-using-x509-certificate">
@@ -1450,9 +1455,9 @@ The client sends the did_methods extension along with the server_certificate_typ
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-mutual-authentication-with-c" class="section-name selfRef">Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate</a>
         </h3>
 <p id="section-6.3-1">This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
-The client expresses its willingness to process an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with a Verifiable Credential or an X.509 certificate.
-The server selects X.509 certificate to authenticate with the client and Verifiable Credential for client authentication. Then, the server sends the CertificateRequest message together with the did_methods extension with a set of DID Methods of its choice.
-The server sends its X.509 certificate and the client its Verifiable Credential into their respective Certificate messages.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+The client sends the <code>server_certificate_type</code> extension indicating <code>X.509</code> certificate types. The client also sends the <code>client_certificate_type</code> extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
+The server sends the <code>server_certificate_type</code> set to <code>X.509</code>, the <code>client_certificate_type</code> set to <code>VC</code> and the <code>CertificateRequest</code> message with the <code>did_methods</code> extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective <code>Certificate</code> messages.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the server resolves the client DID to retrieve the client <em>pk</em> and authenticate it.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual-authentication-with-client-using-x509-certificate-and-server-using-verifiable-credential">
@@ -1461,9 +1466,9 @@ The server sends its X.509 certificate and the client its Verifiable Credential 
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-mutual-authentication-with-cl" class="section-name selfRef">Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential</a>
         </h3>
 <p id="section-6.4-1">This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
-The client expresses its capability to process a Verifiable Credential or an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with an X.509 certificate by the server and sends the <code>did_methods</code> extension with the list of DID Methods of its choice.
-The server selects the Verifiable Credential to authenticate with the client and X.509 certificate for client authentication. Then, the server sends the CertificateRequest message.
-The server sends its Verifiable Credential and the client its X.509 certificate into their respective Certificate messages.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+The client sends the <code>server_certificate_type</code> extension indicating both <code>VC</code> and <code>X.509</code> certificate types along with the <code>did_methods</code> extension containing the list of supported DID Methods. The client also sends the <code>client_certificate_type</code> extension indicating its capability to provide only an X.509 certificate.
+The server sends the <code>server_certificate_type</code> set to <code>VC</code>, the <code>client_certificate_type</code> set to <code>X.509</code> and the <code>CertificateRequest</code> message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective <code>Certificate</code> messages.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate the client.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

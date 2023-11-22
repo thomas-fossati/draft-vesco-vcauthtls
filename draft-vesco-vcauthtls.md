@@ -41,6 +41,8 @@ author:
     email: nic.tuv@gmail.com
 
 normative:
+    RFC8446:
+    RFC7250:
 
 informative:
 
@@ -76,7 +78,7 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 ## client_certificate_type and server_certificate_type extensions
 
-The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250) are used to negotiate the type of ``Certificate`` messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called ``VC``, for the TLS 1.3 handshake. The updated ``CertificateType`` enumeration, the corresponding addition to the ``CertificateEntry`` structure, and the ``Certificate`` message structure are shown below.
+The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in {{!RFC7250}} are used to negotiate the type of ``Certificate`` messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called ``VC``, for the TLS 1.3 handshake. The updated ``CertificateType`` enumeration, the corresponding addition to the ``CertificateEntry`` structure, and the ``Certificate`` message structure are shown below.
 In the current version of the document ``VC`` certificate type is set to 224, one of the values indicated by IANA for private use. ``CertificateType`` values are sent in the ``server_certificate_type`` and ``client_certificate_type`` extensions, and the ``CertificateEntry`` structures are included in the certificate chain sent in the ``Certificate`` message.
 
 ~~~
@@ -111,7 +113,7 @@ struct {
 } Certificate;
 ~~~
 
-As per [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250), the client will send a list of certificate types in ``[endpoint]_certificate_type`` extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the ``EncryptedExtensions`` message. Note that there is no requirement for the negotiated value to be the same in ``client_certificate_type`` and ``server_certificate_type`` extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.
+As per {{!RFC7250}}, the client will send a list of certificate types in ``[endpoint]_certificate_type`` extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the ``EncryptedExtensions`` message. Note that there is no requirement for the negotiated value to be the same in ``client_certificate_type`` and ``server_certificate_type`` extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.
 
 # did_methods extension
 
@@ -206,7 +208,7 @@ Server -> dlt2 : DID Resolve
 
 ## ClientHello message
 
-To express support for ``VC`` certificate type, a client MUST include the extension of type ``client_certificate_type`` or ``server_certificate_type`` in the extended ``ClientHello`` message as described in Section 4.1.2 of [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446). If the client sends the ``server_certificate_type`` extension indicating ``VC``, it MUST also send the ``did_methods`` extension.
+To express support for ``VC`` certificate type, a client MUST include the extension of type ``client_certificate_type`` or ``server_certificate_type`` in the extended ``ClientHello`` message as described in Section 4.1.2 of {{!RFC8446}}. If the client sends the ``server_certificate_type`` extension indicating ``VC``, it MUST also send the ``did_methods`` extension.
 <!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
 ## ServerHello message
@@ -487,7 +489,7 @@ server sends an HRR when it does not have a DID compatible with the list of DID 
 <!-- We should discuss about the different suite of signature algorithms among W3C and TLS 1.3 -->
 <!-- We should discuss or include references to revocation processes -->
 
-All the security considerations presented in [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446) applies to this document as well.
+All the security considerations presented in {{!RFC8446}} applies to this document as well.
 Further considerations can be made on the DID resolution process. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID Document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature provided by the DLT, i.e. the RoT for the public keys.
 A possible solution to this attack is to esthablish a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node MUST be authenticated through an X.509 certificate. The session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 can be used to reduce the overhead of establishing this TLS channel.
 In addition, since confidentiality is not a requirement for DID resolution, another solution is to configure the DLT node to sign the replies such that the DID resolver can verify the origin and the integrity of the data received.

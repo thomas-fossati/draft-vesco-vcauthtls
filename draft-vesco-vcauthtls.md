@@ -1,24 +1,4 @@
 ---
-###
-# Internet-Draft Markdown Template
-#
-# Rename this file from draft-todo-yourname-protocol.md to get started.
-# Draft name format is "draft-<yourname>-<workgroup>-<name>.md".
-#
-# For initial setup, you only need to edit the first block of fields.
-# Only "title" needs to be changed; delete "abbrev" if your title is short.
-# Any other content can be edited, but be careful not to introduce errors.
-# Some fields will be set automatically during setup if they are unchanged.
-#
-# Don't include "-00" or "-latest" in the filename.
-# Labels in the form draft-<yourname>-<workgroup>-<name>-latest are used by
-# the tools to refer to the current version; see "docname" for example.
-#
-# This template uses kramdown-rfc: https://github.com/cabo/kramdown-rfc
-# You can replace the entire file if you prefer a different format.
-# Change the file extension to match the format (.xml for XML, etc...)
-#
-###
 title: "Transport Layer Security (TLS) Authentication with Verifiable Credential (VC)"
 abbrev: "TODO - Abbreviation"
 category: info
@@ -30,11 +10,12 @@ date:
 consensus: true
 v: 3
 area: AREA
-workgroup: WG Working Group
+workgroup: Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - TLS
+ - VC
+ - DID
+ - DLT
 venue:
   group: WG
   type: Working Group
@@ -93,9 +74,10 @@ The extensions enable server-only and mutual authentication using VC, X.509, Raw
 
 # Extensions
 
-## client_certificate_type and server_certificate_type
+## client_certificate_type and server_certificate_type extensions
 
-The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250) are used to negotiate the type of Certificate messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called VC, for the TLS 1.3 handshake. The updated CertificateType enumeration and corresponding addition to the CertificateEntry structure are shown below. In the current version of this document VC certificate type is set to 224, one of the values indicated by IANA for private use. CertificateType values are sent in the server_certificate_type and client_certificate_type extensions, and the CertificateEntry structures are included in the certificate chain sent in the Certificate message.
+The TLS extensions ``client_certificate_type`` and ``server_certificate_type`` defined in [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250) are used to negotiate the type of ``Certificate`` messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called ``VC``, for the TLS 1.3 handshake. The updated ``CertificateType`` enumeration, the corresponding addition to the ``CertificateEntry`` structure, and the ``Certificate`` message structure are shown below.
+In the current version of the document ``VC`` certificate type is set to 224, one of the values indicated by IANA for private use. ``CertificateType`` values are sent in the ``server_certificate_type`` and ``client_certificate_type`` extensions, and the ``CertificateEntry`` structures are included in the certificate chain sent in the ``Certificate`` message.
 
 ~~~
 /* Managed by IANA */
@@ -129,11 +111,11 @@ struct {
 } Certificate;
 ~~~
 
-As per [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250), the client will send a list of certificate types in endpoint_certificate_type extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the EncryptedExtensions message. Note that there is no requirement for the negotiated value to be the same in client_certificate_type and server_certificate_type extensions sent in the same message. Client and server can use different means of authentication as long as the other endpoint is able to verify that specific type of certificate.
+As per [RFC7250](https://datatracker.ietf.org/doc/html/rfc7250), the client will send a list of certificate types in ``[endpoint]_certificate_type`` extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the ``EncryptedExtensions`` message. Note that there is no requirement for the negotiated value to be the same in ``client_certificate_type`` and ``server_certificate_type`` extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.
 
 # did_methods extension
 
-This section defines the did_methods extension, used as part of an extended TLS 1.3 handshake when VC certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in the extended ClientHello only when it indicates VC support in the server_certificate_type extension. The server MUST send this extension in a CertificateRequest message only if it specified VC as client_certificate_type. The extension format which uses the extension_data field, is used to carry the DIDMethodList structure. The structure of this new extension is shown below.
+This section defines the ``did_methods`` extension, used as part of an extended TLS 1.3 handshake when ``VC`` certificate type is used. This extension contains a list of DID Methods an endpoint supports, i.e. a set of DLTs an endpoint can interact with to resolve the peer's DID. A client MUST send this extension in the extended ``ClientHello`` message only when it indicates Verifiable Credential support in the ``server_certificate_type`` extension. The server MUST send this extension in a ``CertificateRequest`` message only if it indicates Verifiable Credential in ``client_certificate_type`` extension. The extension format which uses the ``extension_data`` field, is used to carry the ``DIDMethodList`` structure. The structure of this new extension is shown below.
 
 ~~~
 enum {
@@ -149,11 +131,11 @@ struct {
 } DIDMethodList
 ~~~
 
-The list of existing DID Methods is currently maintained by the W3C in the [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID Method is expressed in the form of a string. This document proposes the DIDMethod enum to map these strings into integer values.
+The list of existing DID Methods is currently maintained by the W3C in [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID Method is expressed in the form of a string. This document proposes the ``DIDMethod`` enum to map these strings into integer values.
 
 # TLS Client and Server Handshake
 
-The Figure below shows the basic full TLS handshake:
+Figure 1 shows the message flow for full TLS handshake.
 
 ~~~~~
 DLT	      Client                              Server            DLT
@@ -222,49 +204,46 @@ Server -> dlt2 : DID Resolve
 ```
 -->
 
-<!-- ![full-hs](images/full-hs.svg) -->
+## ClientHello message
 
-## Client Hello
-
-In order to express support for VC certificate type, a client MUST include an extension of type client_certificate_type or server_certificate_type in the extended ClientHello message as described in Section 4.1.2 of [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446). If the client sends the server_certificate_type extension indicating VC support, it MUST also send the did_methods extension.
+To express support for ``VC`` certificate type, a client MUST include the extension of type ``client_certificate_type`` or ``server_certificate_type`` in the extended ``ClientHello`` message as described in Section 4.1.2 of [RFC8446](https://datatracker.ietf.org/doc/html/rfc8446). If the client sends the ``server_certificate_type`` extension indicating ``VC``, it MUST also send the ``did_methods`` extension.
 <!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
-## Server Hello
+## ServerHello message
 
-When the server receives the ClientHello containing the server_certificate_type extension and/or the client_certificate_type extension, the following scenarios are possible:
+When the server receives the ``ClientHello`` message containing the ``server_certificate_type`` extension and/or the ``client_certificate_type`` extension, the following scenarios are possible:
 
-- The server does not support the extensions, omits them in EncryptedExtensions and the handshake proceeds with X.509 authentication.
-- The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type "unsupported_certificate".
-- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the client did not send the did_methods extension in addition to the server_certificate_type extension. The server MUST terminate the session with a fatal alert of type "missing_extension".
-- Both client and server indicate support for the VC certificate type. The server selects VC certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client, listed in the did_methods extension in ClientHello message. {It terminates the session with a fatal alert of type "unsupported_did_methods"/ It sends a HelloRetryRequest message equipped with the did_methods extension containing the list of DLTs in which it has a DID.} <!-- TBA -->
-- Both client and server indicate support for the VC certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both peers. It MAY include the client_certificate_type in EncryptedExtensions and then request a certificate from the client. In case the server selects VC certificate type, MUST also send the did_methods extension in the CertificateRequest message.
+- The server does not support the extensions, omits them in ``EncryptedExtensions`` and the handshake proceeds with X.509 certificate(s).
+- The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type ``unsupported_certificate``.
+- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the client did not send the ``did_methods`` extension in addition to the ``server_certificate_type`` extension. The server MUST terminate the session with a fatal alert of type ``missing_extension``.
+- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the ``did_methods`` extension in the ``ClientHello`` message. The server terminates the session. <!-- It terminates the session with a fatal alert of type ``unsupported_did_methods`` / It sends an ``HelloRetryRequest`` message with the ``did_methods`` extension containing the list of DLTs in which it has a DID.} -->
+- Both client and server indicate support for the ``VC`` certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both endpoints. It MAY include the ``client_certificate_type`` in the ``EncryptedExtensions`` message to request a certificate from the client. In case the server selects ``VC`` certificate type, it MUST also send the ``did_methods`` extension in the ``CertificateRequest`` message.
 
-## Certificate Request
+<!-- manca il caso in cui il client non ha un DID nella lista dei DID Method indicati dal server-->
 
-The server sends this message to request client authentication. It MUST include the did_methods extension if it specified VC in the client_certificate_type extension. If the ClientHello contained the did_methods extension, the server MUST send a list of DID Methods client and server have in common. If the client did not send the did_methods extension the server MUST select a list of DID Methods it supports. A client that processes this message that does not have a DID compatible with the DID Methods selected by the server MUST send a Certificate message containing no certificates, i.e. with the certificate list field having length 0.
+## CertificateRequest message
 
-## Certificate
+The server sends the ``CertificateRequest`` message to request client authentication. It MUST include the ``did_methods`` extension if it indicates ``VC`` in the ``client_certificate_type`` extension. If the ``ClientHello`` contains the ``did_methods`` extension, the server MUST send a list of DID Methods client and server have in common. If the client does not send the ``did_methods`` extension the server MUST select a list of DID Methods it supports. A client that processes the the ``CertificateRequest`` message that does not own a DID compatible with the DID Methods selected by the server MUST send a ``Certificate`` message containing no certificates, i.e. with the ``certificate_list`` field having length 0.
 
-When the selected certificate type is VC, the certificate_list in the Certificate message MUST contain no more than one CertificateEntry with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential SHOULD be CBOR encoded. After decoding, the endpoint MUST follow the procedure in [VC](https://www.w3.org/TR/vc-data-model-2.0/) to verify the Verifiable Credential.
+## Certificate message
 
-<!--The endpoint must check that the VC follows the scheme specified in the @context field, then check the validity of the VC metadata, verify the signature of the Issuer on the VC, and then extract the server DID from the credentialSubject field of the VC and resolve the server DID to retrieve the server public key from the distributed ledger. The public is employed to verify the signature in the CertificateVerify message sent by the peer.-->
+When the selected certificate type is ``VC``, the ``certificate_list`` in the ``Certificate`` message MUST contain no more than one ``CertificateEntry`` with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential SHOULD be CBOR encoded. After decoding, the endpoint MUST follows the procedure in [VC](https://www.w3.org/TR/vc-data-model-2.0/) to verify the Verifiable Credential.
 
-## Certificate Verify
+## CertificateVerify message
 
-As discussed in [Introduction](#introduction), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
+As discussed in [Introduction](#introduction), an Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes. During the TLS handshake, when the selected certificate type is ``VC``, the subsequent ``CertificateVerify`` message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the ``Certificate`` message.
 
 
-# Examples
+# TLS handshake Examples
 
-This section shows some examples of TLS handshakes using different combinations of authentication means.
+This section shows some examples of TLS handshakes using different combinations of certificate types.
 
 ## Server authentication with Verifiable Credential
 
-This example shows a TLS 1.3 handshake with server authentication. The server selects a Verifiable Credential for authentication.
-The client does not own an identity at the TLS level, therefore omits the client_certificate_type extension. The server indicates in the EncryptedExtensions message a
-server_certificate_type equal to VC and insert the Verifiable Credential into the Certificate message.
-
-<!-- TODO description of DID resolve -->
+This example shows a TLS 1.3 handshake with server authentication. The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types. In addition, the client sends the ``did_methods`` extension with the list of supported DID Methods. The client does not own an identity at the TLS level, therefore omits the ``client_certificate_type`` extension.
+The server selects ``VC`` certificate type, sends the EncryptedExtensions message with
+the ``server_certificate_type`` extension set to VC, and sends its Verifiable Credential into the Certificate message.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate it.
 
 <!--
 ```
@@ -292,8 +271,10 @@ Client -> Server : { Finished }
 
 ## Mutual authentication with Verifiable Credentials
 
-This example shows a TLS 1.3 handshake with mutual authenitcation. Both client and server select their  Verifiable Credential for authentication.
-The client sends the did_methods extension along with the server_certificate_type extension set to VC as the first option. The server sends the server_certificate_type set to VC, the client_cert_type set to VC and the CertificateRequest message together with the did_methods extension with a set of DID Methods both endpoints have in common. Both client and server send their Verifiable Credential into their respective Certificate messages..
+This example shows a TLS 1.3 handshake with mutual authentication where both client and server authenticate the peer using Verifiable Credentials.
+The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types along with the ``did_methods`` extension containing the list of supported DID Methods. The client also sends the ``client_certificate_type`` extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
+The server sends the ``server_certificate_type`` set to ``VC``, the ``client_certificate_type`` set to ``VC`` and the ``CertificateRequest`` message with the ``did_methods`` extension containig a set of DID Methods in common with the client. Client and server send their Verifiable Credential into their respective ``Certificate`` messages.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the client and then the server resolve the peer's DID to retrieve the associated _pk_ and authenticate each other.
 
 <!-- TODO description of DID resolve at client and server side -->
 
@@ -323,16 +304,12 @@ Server -> dlt2 : DID Resolve
 ```
 -->
 
-<!-- ![mutual-vc](images/mutual-vc.svg) -->
-
 ## Mutual authentication with Client using Verifiable Credential and Server using X.509 Certificate
 
 This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
-The client expresses its willingness to process an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with a Verifiable Credential or an X.509 certificate.
-The server selects X.509 certificate to authenticate with the client and Verifiable Credential for client authentication. Then, the server sends the CertificateRequest message together with the did_methods extension with a set of DID Methods of its choice.
-The server sends its X.509 certificate and the client its Verifiable Credential into their respective Certificate messages.
-
-<!-- TODO description of DID resolve at server side -->
+The client sends the ``server_certificate_type`` extension indicating ``X.509`` certificate types. The client also sends the ``client_certificate_type`` extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
+The server sends the ``server_certificate_type`` set to ``X.509``, the ``client_certificate_type`` set to ``VC`` and the ``CertificateRequest`` message with the ``did_methods`` extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective ``Certificate`` messages.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the server resolves the client DID to retrieve the client _pk_ and authenticate it.
 
 <!--
 ```
@@ -363,11 +340,9 @@ Server -> IOTA : DID Resolve
 ## Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential
 
 This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
-The client expresses its capability to process a Verifiable Credential or an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with an X.509 certificate by the server and sends the ``did_methods`` extension with the list of DID Methods of its choice.
-The server selects the Verifiable Credential to authenticate with the client and X.509 certificate for client authentication. Then, the server sends the CertificateRequest message.
-The server sends its Verifiable Credential and the client its X.509 certificate into their respective Certificate messages.
-
-<!-- TODO description of DID resolve at server side -->
+The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types along with the ``did_methods`` extension containing the list of supported DID Methods. The client also sends the ``client_certificate_type`` extension indicating its capability to provide only an X.509 certificate.
+The server sends the ``server_certificate_type`` set to ``VC``, the ``client_certificate_type`` set to ``X.509`` and the ``CertificateRequest`` message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective ``Certificate`` messages.
+After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate the client.
 
 <!--
 ```
@@ -392,8 +367,6 @@ Client -> Server : { Finished }
 @enduml
 ```
 -->
-
-<!-- ![clnt-x509-srvr-vc](images/clnt-x509-srvr-vc.svg) -->
 
 <!--
 ## Renegotiation of DID Methods

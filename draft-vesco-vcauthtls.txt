@@ -126,14 +126,15 @@ Table of Contents
    The VP is an envelop of the VC signed by the node holding the VC with
    its _sk_. The verifier authenticates the node checking the validity
    and authenticity of the VP and the inner VC before granting or
-   denying access to the requesting node.  The current implementations
-   of the authentication process run at the Application layer.  A client
-   node estabhlishes a TLS channel authenticating the server node with
-   the server's X.509 certificate.  Then the server node authenticates
-   the client node that sends its VP at application layer (i.e. over the
-   TLS channel already established).  The mutual authentication with VPs
-   occurs when also the server node exchanges its VP with the client
-   node again at application layer.
+   denying access to the requesting node.
+
+   The current implementations of the authentication process run at the
+   Application layer.  A client node estabhlishes a TLS channel
+   authenticating the server node with the server's X.509 certificate.
+   Then the server node authenticates the client node that sends its VP
+   at application layer (i.e. over the TLS channel already established).
+   The mutual authentication with VPs occurs when also the server node
+   exchanges its VP with the client node again at application layer.
 
    SSI is emerging as an identity option for Internet of Thing and Edge
    nodes in computing continuum environments.  In these scenarios,
@@ -148,6 +149,8 @@ Table of Contents
    gradual deployment of SSI in existing systems.  Moreover, the
    extension allows TLS endpoints to use different distributed ledger
    technologies to store their public keys and to authenticate the peer.
+   The authentication process is successful if the TLS endpoints
+   implement the DID Method to resolve the peer's DID.
 
 2.  Conventions and Definitions
 
@@ -343,7 +346,7 @@ Table of Contents
    ClientHello contains the did_methods extension, the server MUST send
    a list of DID Methods client and server have in common.  If the
    client does not send the did_methods extension the server MUST select
-   a list of DID Methods it supports.  A client that processes the the
+   a list of DID Methods it supports.  A client that processes the
    CertificateRequest message that does not own a DID compatible with
    the DID Methods selected by the server MUST send a Certificate
    message containing no certificates, i.e. with the certificate_list

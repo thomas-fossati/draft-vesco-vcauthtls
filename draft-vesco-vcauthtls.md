@@ -138,32 +138,32 @@ The list of existing DID Methods is currently maintained by the W3C in [did-regi
 Figure 1 shows the message flow for full TLS handshake.
 
 ~~~~~
-DLT	      Client                              Server            DLT
+DLT	     Client                               Server           DLT
 
       Key  ^ ClientHello
-      Exch | + server_cert_types*
-	   | + client_cert_types*
+      Exch | + server_certificate_type*
+	   | + client_certificate_type*
 	   | + did_methods*
-	   | + signature_algorithms
+	   | + signature_algorithms*
 	   v + key_share*  -------->
-	    				    ServerHello  ^ Key
-	                                    + key_share  v Exch,
+	    				     ServerHello ^ Key
+	                                    + key_share* v Exch,
 	                           {EncryptedExtensions} ^ Server
-	                          {+ server_cert_types*} | Params
-	                          {+ client_cert_types*} |
+	                    {+ server_certificate_type*} | Params
+	                    {+ client_certificate_type*} |
 	      			   {CertificateRequest*} |
 	                                {+ did_methods*} v		
 	      				  {Certificate*} ^
 	                            {CertificateVerify*} | Auth
 	                             	      {Finished} v
 	                   <-------- [Application Data*]
-  DID Resolve  	
-  <========== 	
+ DID Resolve  	
+ <========== 	
  	   ^ {Certificate*}
       Auth | {CertificateVerify*}	 		
   	   v {Finished}    -------->
-							DID Resolve
-					                ==========>
+							 DID Resolve
+					                 ==========>
 	     [Application Data] <---> [Application Data]
 
         +  Indicates noteworthy extensions sent in the
@@ -176,7 +176,7 @@ DLT	      Client                              Server            DLT
         [] Indicates messages protected using keys
            derived from [sender]_application_traffic_secret_N.
 
-        Figure 1: Message Flow for full TLS Handshake
+Figure 1: Message Flow for full TLS Handshake
 ~~~~~
 
 <!--
@@ -243,6 +243,27 @@ This section shows some examples of TLS handshakes using different combinations 
 This example shows a TLS 1.3 handshake with server authentication. The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types. In addition, the client sends the ``did_methods`` extension with the list of supported DID Methods. The client does not own an identity at the TLS level, therefore omits the ``client_certificate_type`` extension.
 The server selects ``VC`` certificate type, sends the EncryptedExtensions message with
 the ``server_certificate_type`` extension set to VC, and sends its Verifiable Credential into the Certificate message.
+
+~~~~~
+DLT	    Client                                              Server
+	
+	    ClientHello
+      	    server_certificate_type=(VC,X.509)
+	    did_methods=(btcr,iota) -------->
+	    				                    ServerHello
+	                                          {EncryptedExtensions}
+	                                   {server_certificate_type=VC}  		
+	      				                  {Certificate}
+	                                            {CertificateVerify}
+	                           	                     {Finished}
+	                            <--------        [Application Data]
+ DID Resolve  	
+ <========== 		 		
+            {Finished}              -------->
+            [Application Data]      <------->        [Application Data]
+
+Figure 2: TLS Server Uses Verifiable Credential
+~~~~~
 After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate it.
 
 <!--
@@ -275,6 +296,36 @@ This example shows a TLS 1.3 handshake with mutual authentication where both cli
 The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types along with the ``did_methods`` extension containing the list of supported DID Methods. The client also sends the ``client_certificate_type`` extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
 The server sends the ``server_certificate_type`` set to ``VC``, the ``client_certificate_type`` set to ``VC`` and the ``CertificateRequest`` message with the ``did_methods`` extension containig a set of DID Methods in common with the client. Client and server send their Verifiable Credential into their respective ``Certificate`` messages.
 After receiving the ``CertificateVerify`` and ``Finished`` messages, the client and then the server resolve the peer's DID to retrieve the associated _pk_ and authenticate each other.
+
+~~~~~
+DLT	   Client                                    Server         DLT
+
+           ClientHello
+           server_certificate_type=(VC,X.509)
+           client_certificate_type=(VC,X.509)
+           did_methods=(btcr,ethr)
+           		      -------->
+	    				        ServerHello
+	                              {EncryptedExtensions}
+	                       {server_certificate_type=VC}
+	                       {client_certificate_type=VC}
+	      			       {CertificateRequest}
+	                          {did_methods=(btcr,ethr)} 		
+	      				      {Certificate}
+	                                {CertificateVerify}
+	                             	         {Finished}
+	                      <--------  [Application Data]
+ DID Resolve  	
+ <========== 	
+           {Certificate}
+      	   {CertificateVerify}	 		
+  	   {Finished}         -------->
+					                   DID Resolve
+					                   ==========>
+	   [Application Data] <------->  [Application Data]
+
+Figure 3: TLS Client and TLS Server Use Verifiable Credentials
+~~~~~
 
 <!-- TODO description of DID resolve at client and server side -->
 
@@ -309,6 +360,34 @@ Server -> dlt2 : DID Resolve
 This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
 The client sends the ``server_certificate_type`` extension indicating ``X.509`` certificate types. The client also sends the ``client_certificate_type`` extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
 The server sends the ``server_certificate_type`` set to ``X.509``, the ``client_certificate_type`` set to ``VC`` and the ``CertificateRequest`` message with the ``did_methods`` extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective ``Certificate`` messages.
+
+~~~~~	
+Client                                               Server         DLT
+
+ClientHello
+server_certificate_type=(X.509)
+client_certificate_type=(VC,X.509)
+			-------->
+	    		                        ServerHello
+	                              {EncryptedExtensions}
+	                    {server_certificate_type=X.509}
+	                       {client_certificate_type=VC}
+	      	                       {CertificateRequest}
+	                     {did_methods=(btcr,ethr,iota)} 		
+	      		                      {Certificate}
+	                                {CertificateVerify}
+	                                         {Finished}
+	                <--------        [Application Data]	
+{Certificate}
+{CertificateVerify}	 		
+{Finished}              -------->
+					                   DID Resolve
+					                   ==========>
+[Application Data]      <------->        [Application Data]
+
+Figure 4: TLS Client Uses a Verifiable Credential and TLS Server
+Uses an X.509 Certificate
+~~~~~
 After receiving the ``CertificateVerify`` and ``Finished`` messages, the server resolves the client DID to retrieve the client _pk_ and authenticate it.
 
 <!--
@@ -342,6 +421,35 @@ Server -> IOTA : DID Resolve
 This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
 The client sends the ``server_certificate_type`` extension indicating both ``VC`` and ``X.509`` certificate types along with the ``did_methods`` extension containing the list of supported DID Methods. The client also sends the ``client_certificate_type`` extension indicating its capability to provide only an X.509 certificate.
 The server sends the ``server_certificate_type`` set to ``VC``, the ``client_certificate_type`` set to ``X.509`` and the ``CertificateRequest`` message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective ``Certificate`` messages.
+
+~~~~~
+DLT	     Client                                              Server
+
+             ClientHello
+             server_certificate_type=(VC,X.509)
+             client_certificate_type=(X.509)
+             did_methods=(btcr,ethr,iota)
+        	      		       -------->
+	    				                    ServerHello
+	                                          {EncryptedExtensions}
+	                                   {server_certificate_type=VC}
+	                                {client_certificate_type=X.509}
+	      			                   {CertificateRequest} 		
+	      				                  {Certificate}
+	                                            {CertificateVerify}
+	                             	                     {Finished}
+	                               <--------     [Application Data]
+ DID Resolve  	
+ <========== 	
+            {Certificate}
+      	    {CertificateVerify}	 		
+  	    {Finished}                 -------->
+	    [Application Data]         <------->     [Application Data]
+
+Figure 5: TLS Client Uses an X.509 Certificate and TLS Server Uses a
+Verifiable Credential
+~~~~~
+
 After receiving the ``CertificateVerify`` and ``Finished`` messages, the client resolves the server's DID to retrieve the server _pk_ and authenticate the client.
 
 <!--

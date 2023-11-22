@@ -1249,7 +1249,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <h3 id="name-client_certificate_type-and">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-client_certificate_type-and" class="section-name selfRef">client_certificate_type and server_certificate_type extensions</a>
         </h3>
-<p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a> are used to negotiate the type of <code>Certificate</code> messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called <code>VC</code>, for the TLS 1.3 handshake. The updated <code>CertificateType</code> enumeration, the corresponding addition to the <code>CertificateEntry</code> structure, and the <code>Certificate</code> message structure are shown below.
+<p id="section-3.1-1">The TLS extensions <code>client_certificate_type</code> and <code>server_certificate_type</code> defined in <span>[<a href="#RFC7250" class="cite xref">RFC7250</a>]</span> are used to negotiate the type of <code>Certificate</code> messages used in TLS to authenticate the server and, optionally, the client. This section defines a new certificate type, called <code>VC</code>, for the TLS 1.3 handshake. The updated <code>CertificateType</code> enumeration, the corresponding addition to the <code>CertificateEntry</code> structure, and the <code>Certificate</code> message structure are shown below.
 In the current version of the document <code>VC</code> certificate type is set to 224, one of the values indicated by IANA for private use. <code>CertificateType</code> values are sent in the <code>server_certificate_type</code> and <code>client_certificate_type</code> extensions, and the <code>CertificateEntry</code> structures are included in the certificate chain sent in the <code>Certificate</code> message.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.1-2">
 <pre>
@@ -1284,7 +1284,7 @@ struct {
 } Certificate;
 </pre><a href="#section-3.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-3.1-3">As per <a href="https://datatracker.ietf.org/doc/html/rfc7250">RFC7250</a>, the client will send a list of certificate types in <code>[endpoint]_certificate_type</code> extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the <code>EncryptedExtensions</code> message. Note that there is no requirement for the negotiated value to be the same in <code>client_certificate_type</code> and <code>server_certificate_type</code> extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">As per <span>[<a href="#RFC7250" class="cite xref">RFC7250</a>]</span>, the client will send a list of certificate types in <code>[endpoint]_certificate_type</code> extension(s), the server processes the received extension(s) and selects one of the offered certificate types, returning the negotiated value in the <code>EncryptedExtensions</code> message. Note that there is no requirement for the negotiated value to be the same in <code>client_certificate_type</code> and <code>server_certificate_type</code> extensions sent in the same message. Client and server can use different certificate types as long as the peer is able to verify that specific type of certificate.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1367,7 +1367,7 @@ Figure 1: Message Flow for full TLS Handshake
         <h3 id="name-clienthello-message">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-clienthello-message" class="section-name selfRef">ClientHello message</a>
         </h3>
-<p id="section-5.1-1">To express support for <code>VC</code> certificate type, a client <span class="bcp14">MUST</span> include the extension of type <code>client_certificate_type</code> or <code>server_certificate_type</code> in the extended <code>ClientHello</code> message as described in Section 4.1.2 of <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a>. If the client sends the <code>server_certificate_type</code> extension indicating <code>VC</code>, it <span class="bcp14">MUST</span> also send the <code>did_methods</code> extension.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">To express support for <code>VC</code> certificate type, a client <span class="bcp14">MUST</span> include the extension of type <code>client_certificate_type</code> or <code>server_certificate_type</code> in the extended <code>ClientHello</code> message as described in Section 4.1.2 of <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>. If the client sends the <code>server_certificate_type</code> extension indicating <code>VC</code>, it <span class="bcp14">MUST</span> also send the <code>did_methods</code> extension.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="serverhello-message">
@@ -1434,7 +1434,8 @@ Figure 1: Message Flow for full TLS Handshake
         </h3>
 <p id="section-6.1-1">This example shows a TLS 1.3 handshake with server authentication. The client sends the <code>server_certificate_type</code> extension indicating both <code>VC</code> and <code>X.509</code> certificate types. In addition, the client sends the <code>did_methods</code> extension with the list of supported DID Methods. The client does not own an identity at the TLS level, therefore omits the <code>client_certificate_type</code> extension.
 The server selects <code>VC</code> certificate type, sends the EncryptedExtensions message with
-the <code>server_certificate_type</code> extension set to VC, and sends its Verifiable Credential into the Certificate message.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+the <code>server_certificate_type</code> extension set to VC, and sends its Verifiable Credential into the Certificate message.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate it.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-2">
 <pre>
 DLT         Client                                              Server
@@ -1457,7 +1458,6 @@ DLT         Client                                              Server
 Figure 2: TLS Server Uses Verifiable Credential
 </pre><a href="#section-6.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6.1-3">After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate it.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual-authentication-with-verifiable-credentials">
@@ -1509,7 +1509,8 @@ Figure 3: TLS Client and TLS Server Use Verifiable Credentials
         </h3>
 <p id="section-6.3-1">This example shows a TLS 1.3 handshake with mutual authentication that combines the use of Verifiable Credential and X.509 certificate. The client uses a Verifiable Credential, and the server uses an X.509 certificate.
 The client sends the <code>server_certificate_type</code> extension indicating <code>X.509</code> certificate types. The client also sends the <code>client_certificate_type</code> extension indicating its capability to provide both a Verifiable Credential and an X.509 certificate.
-The server sends the <code>server_certificate_type</code> set to <code>X.509</code>, the <code>client_certificate_type</code> set to <code>VC</code> and the <code>CertificateRequest</code> message with the <code>did_methods</code> extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective <code>Certificate</code> messages.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+The server sends the <code>server_certificate_type</code> set to <code>X.509</code>, the <code>client_certificate_type</code> set to <code>VC</code> and the <code>CertificateRequest</code> message with the <code>did_methods</code> extension containig the set of suported DID Methods. The server sends its X.509 certificate and the client its Verifiable Credential into their respective <code>Certificate</code> messages.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the server resolves the client DID to retrieve the client <em>pk</em> and authenticate it.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.3-2">
 <pre>
 Client                                               Server         DLT
@@ -1539,7 +1540,6 @@ Figure 4: TLS Client Uses a Verifiable Credential and TLS Server
 Uses an X.509 Certificate
 </pre><a href="#section-6.3-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6.3-3">After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the server resolves the client DID to retrieve the client <em>pk</em> and authenticate it.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="mutual-authentication-with-client-using-x509-certificate-and-server-using-verifiable-credential">
@@ -1549,7 +1549,8 @@ Uses an X.509 Certificate
         </h3>
 <p id="section-6.4-1">This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
 The client sends the <code>server_certificate_type</code> extension indicating both <code>VC</code> and <code>X.509</code> certificate types along with the <code>did_methods</code> extension containing the list of supported DID Methods. The client also sends the <code>client_certificate_type</code> extension indicating its capability to provide only an X.509 certificate.
-The server sends the <code>server_certificate_type</code> set to <code>VC</code>, the <code>client_certificate_type</code> set to <code>X.509</code> and the <code>CertificateRequest</code> message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective <code>Certificate</code> messages.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+The server sends the <code>server_certificate_type</code> set to <code>VC</code>, the <code>client_certificate_type</code> set to <code>X.509</code> and the <code>CertificateRequest</code> message. The server sends its Verifiable Credential, and the client its X.509 certificate into their respective <code>Certificate</code> messages.
+After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate the client.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.4-2">
 <pre>
 DLT          Client                                              Server
@@ -1579,7 +1580,6 @@ Figure 5: TLS Client Uses an X.509 Certificate and TLS Server Uses a
 Verifiable Credential
 </pre><a href="#section-6.4-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6.4-3">After receiving the <code>CertificateVerify</code> and <code>Finished</code> messages, the client resolves the server's DID to retrieve the server <em>pk</em> and authenticate the client.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1589,7 +1589,7 @@ Verifiable Credential
       <h2 id="name-security-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-7-1">All the security considerations presented in <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC8446</a> applies to this document as well.
+<p id="section-7-1">All the security considerations presented in <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> applies to this document as well.
 Further considerations can be made on the DID resolution process. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID Document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature provided by the DLT, i.e. the RoT for the public keys.
 A possible solution to this attack is to esthablish a TLS channel towards the DLT node and authenticate only the latter to rely on the received data. The DLT node <span class="bcp14">MUST</span> be authenticated through an X.509 certificate. The session resumption and 0 round-trip time (0-RTT) features of TLS 1.3 can be used to reduce the overhead of establishing this TLS channel.
 In addition, since confidentiality is not a requirement for DID resolution, another solution is to configure the DLT node to sign the replies such that the DID resolver can verify the origin and the integrity of the data received.<a href="#section-7-1" class="pilcrow">¶</a></p>
@@ -1613,9 +1613,17 @@ In addition, since confidentiality is not a requirement for DID resolution, anot
       <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7250">[RFC7250]</dt>
+      <dd>
+<span class="refAuthor">Wouters, P., Ed.</span>, <span class="refAuthor">Tschofenig, H., Ed.</span>, <span class="refAuthor">Gilmore, J.</span>, <span class="refAuthor">Weiler, S.</span>, and <span class="refAuthor">T. Kivinen</span>, <span class="refTitle">"Using Raw Public Keys in Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)"</span>, <span class="seriesInfo">RFC 7250</span>, <span class="seriesInfo">DOI 10.17487/RFC7250</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7250">https://www.rfc-editor.org/rfc/rfc7250</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8446">[RFC8446]</dt>
+    <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

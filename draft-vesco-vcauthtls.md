@@ -10,7 +10,7 @@ date:
 consensus: true
 v: 3
 area: AREA
-workgroup: Working Group
+workgroup: WG
 keyword:
  - TLS
  - VC

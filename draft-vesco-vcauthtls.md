@@ -73,11 +73,11 @@ This document defines a new certificate type and extension for the exchange of V
 
 # Introduction
 
-The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair ($sk, pk$). Then the node stores $pk$ in the distributed ledger of choice for other nodes to authenticate it.
-A node's DID is a pointer to the distributed ledger where other nodes can retrieve its $pk$. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains $pk$, stored in the distributed ledger.
+The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair (_sk_, _pk_). Then the node stores _pk_ in the distributed ledger of choice for other nodes to authenticate it.
+A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains _pk_, stored in the distributed ledger.
 After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
-The combination of the key pair ($sk, pk$), the DID and at least one VC forms the identity compliant with the SSI model.
-A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its $sk$. The verifier authenticates the node checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting node.
+The combination of the key pair (_sk_, _pk_), the DID and at least one VC forms the identity compliant with the SSI model.
+A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the authenticity of the VP and the validity and authenticity of the inner VC before granting or denying access to the requesting node.
 <!-- The SSI model subtends the peer-to-peer model of interaction where both types of authentication are possible using VP; one node authenticates the other, or the nodes can authenticate each other. -->
 The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticate the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occours when also the server node exchange its VP with the client node again at application layer.
 
@@ -209,7 +209,7 @@ When the selected certificate type is VC, the certificate_list in the Certificat
 
 ## Certificate Verify
 
-As discussed in [Section I](#introduction), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
+As discussed in [Introduction](#introduction), a Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes in accordance with SSI model. When the selected certificate type is VC, the subsequent CertificateVerify message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the Certificate message.
 
 
 # Examples
@@ -320,7 +320,12 @@ Server -> IOTA : DID Resolve
 
 ## Mutual authentication with Client using X.509 Certificate and Server using Verifiable Credential
 
-<!-- This example proposes a client authenticating with an X.509 certificate and a server with a VC. The client is capable to process and validate a VC from the server, in fact it also sends the did_methods extension. The server then decides to request an X.509 certificate from the client and to provide a VC to authenticate with the client. -->
+This example complements the previous one showing a TLS 1.3 handshake with mutual authentication where the client uses X.509 certificate and the server a Verifiable Credential.
+The client expresses its capability to process a Verifiable Credential or an X.509 certificate from the server. In addition, it expresses the capability to be authenticated with an X.509 certificate by the server and sends the ``did_methods`` extension with the list of DID Methods of its choice.
+The server selects the Verifiable Credential to authenticate with the client and X.509 certificate for client authentication. Then, the server sends the CertificateRequest message.
+The server sends its Verifiable Credential and the client its X.509 certificate into their respective Certificate messages.
+
+<!-- TODO description of DID resolve at server side -->
 
 <!--
 ```
@@ -367,7 +372,7 @@ In order to reduce the overhead of establishing a TLS channel with the DLT node 
 
 # IANA Considerations
 
-This document has no IANA actions..
+To be addressed
 
 
 --- back
@@ -375,4 +380,4 @@ This document has no IANA actions..
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+To be done.

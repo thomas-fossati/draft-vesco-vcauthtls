@@ -45,6 +45,30 @@ normative:
     RFC7250:
 
 informative:
+      DID:
+         title: Decentralized Identifiers (DIDs) v1.0
+         date: July 2022
+         target: https://www.w3.org/TR/did-core/
+         author:
+            - ins: W3C
+      DID-Registries:
+         title: DID Specification Registries
+         date: September 2023
+         target: https://www.w3.org/TR/did-spec-registries/#did-methods
+         author:
+            - ins: W3C
+      VC:
+         title: Verifiable Credentials Data Model v2.0
+         date: November 2023
+         target: https://www.w3.org/TR/vc-data-model-2.0/
+         author:
+            - ins: W3C
+      VP:
+         title: Verifiable Credentials Data Model v2.0
+         date: November 2023
+         target: https://www.w3.org/TR/vc-data-model-2.0/
+         author:
+            - ins: W3C
 
 
 --- abstract
@@ -56,11 +80,11 @@ This document defines a new certificate type and extension for the exchange of V
 
 # Introduction
 
-The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier [DID](https://www.w3.org/TR/did-core/), and Verifiable Credential [VC](https://www.w3.org/TR/vc-data-model-2.0/). An SSI aware node builds his identity starting from generating the identity key pair (_sk_, _pk_). Then the node stores _pk_ in the distributed ledger of choice for other nodes to authenticate it.
-A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the [DID Method](https://www.w3.org/TR/did-core/) used to interact with the distributed ledger and _method-specific-id_ is the pointer to the [DID Document](https://www.w3.org/TR/did-core/) that contains _pk_, stored in the distributed ledger.
-After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
+The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier {{!DID}}, and Verifiable Credential {{!VC}}. An SSI aware node builds his identity starting from generating the identity key pair (_sk_, _pk_). Then the node stores _pk_ in the distributed ledger of choice for other nodes to authenticate it.
+A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the {{!DID}} Method used to interact with the distributed ledger and _method-specific-id_ is the pointer to the {{!DID}} Document that contains _pk_, stored in the distributed ledger.
+After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node and the signature of the Issuer.
 The combination of the key pair (_sk_, _pk_), the DID and at least one VC forms the identity compliant with the SSI model.
-A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the validity and authenticity of the VP and the inner VC before granting or denying access to the requesting node.
+A node requests access to services by presenting a Verfiable Presentation {{!VP}}. The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the validity and authenticity of the VP and the inner VC before granting or denying access to the requesting node.
 
 The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticates the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occurs when also the server node exchanges its VP with the client node again at application layer.
 
@@ -133,7 +157,7 @@ struct {
 } DIDMethodList
 ~~~
 
-The list of existing DID Methods is currently maintained by the W3C in [did-registry](https://www.w3.org/TR/did-spec-registries/#did-methods). Each DID Method is expressed in the form of a string. This document proposes the ``DIDMethod`` enum to map these strings into integer values.
+The list of existing DID Methods is currently maintained by the W3C in {{!DID-Registries}}. Each DID Method is expressed in the form of a string. This document proposes the ``DIDMethod`` enum to map these strings into integer values.
 
 # TLS Client and Server Handshake
 
@@ -346,10 +370,6 @@ DLT	     Client                                              Server
 Figure 5: TLS Client Uses an X.509 Certificate and TLS Server Uses a
 Verifiable Credential
 ~~~~~
-
-<!--
-## Renegotiation of DID Methods
--->
 
 # Security Considerations
 

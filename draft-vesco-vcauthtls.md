@@ -61,12 +61,13 @@ A node's DID is a pointer to the distributed ledger where other nodes can retrie
 After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node <!--in the _credentialSubject_ field,--> and the signature of the Issuer.
 The combination of the key pair (_sk_, _pk_), the DID and at least one VC forms the identity compliant with the SSI model.
 A node requests access to services by presenting a Verfiable Presentation [VP](https://www.w3.org/TR/vc-data-model-2.0/). The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the validity and authenticity of the VP and the inner VC before granting or denying access to the requesting node.
-<!-- The SSI model subtends the peer-to-peer model of interaction where both types of authentication are possible using VP; one node authenticates the other, or the nodes can authenticate each other. -->
+
 The current implementations of the authentication process run at the Application layer. A client node estabhlishes a TLS channel authenticating the server node with the server's X.509 certificate. Then the server node authenticates the client node that sends its VP at application layer (i.e. over the TLS channel already established). The mutual authentication with VPs occurs when also the server node exchanges its VP with the client node again at application layer.
 
 SSI is emerging as an identity option for Internet of Thing and Edge nodes in computing continuum environments. In these scenarios, (mutual) authentication with VP can take place directly at the TLS protocol layer, enabling the peer-to-peer interaction model envisaged by the SSI model.
 This document describes the extensions to TLS handshake protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
-The extensions enable server and mutual authentication using VC, X.509, Raw Public Key or a combination of two of them. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allows TLS endpoints to use different distributed ledger technologies to store their public keys and to authenticate the peer.
+The extensions enable server and mutual authentication using VC, X.509, Raw Public Key or a combination of two of them. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allows TLS endpoints to use different distributed ledger technologies to store their public keys and to authenticate the peer. The authentication process is successful if the TLS endpoints implement the DID Method to resolve the peer's DID.
+
 
 # Conventions and Definitions
 
@@ -183,7 +184,6 @@ Figure 1: Message Flow for full TLS Handshake
 ## ClientHello message
 
 To express support for ``VC`` certificate type, a client MUST include the extension of type ``client_certificate_type`` or ``server_certificate_type`` in the extended ``ClientHello`` message as described in Section 4.1.2 of {{!RFC8446}}. If the client sends the ``server_certificate_type`` extension indicating ``VC``, it MUST also send the ``did_methods`` extension.
-<!-- If the client also sends the client_certificate_type extension indicating VC support then it MUST have at least a DID that belongs to one of the DLs specified in the did_methods extension. -->
 
 ## ServerHello message
 
@@ -192,14 +192,12 @@ When the server receives the ``ClientHello`` message containing the ``server_cer
 - The server does not support the extensions, omits them in ``EncryptedExtensions`` and the handshake proceeds with X.509 certificate(s).
 - The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type ``unsupported_certificate``.
 - Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the client did not send the ``did_methods`` extension in addition to the ``server_certificate_type`` extension. The server MUST terminate the session with a fatal alert of type ``missing_extension``.
-- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the ``did_methods`` extension in the ``ClientHello`` message. The server terminates the session. <!-- It terminates the session with a fatal alert of type ``unsupported_did_methods`` / It sends an ``HelloRetryRequest`` message with the ``did_methods`` extension containing the list of DLTs in which it has a DID.} -->
+- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the ``did_methods`` extension in the ``ClientHello`` message. The server terminates the session.
 - Both client and server indicate support for the ``VC`` certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both endpoints. It MAY include the ``client_certificate_type`` in the ``EncryptedExtensions`` message to request a certificate from the client. In case the server selects ``VC`` certificate type, it MUST also send the ``did_methods`` extension in the ``CertificateRequest`` message.
-
-<!-- manca il caso in cui il client non ha un DID nella lista dei DID Method indicati dal server-->
 
 ## CertificateRequest message
 
-The server sends the ``CertificateRequest`` message to request client authentication. It MUST include the ``did_methods`` extension if it indicates ``VC`` in the ``client_certificate_type`` extension. If the ``ClientHello`` contains the ``did_methods`` extension, the server MUST send a list of DID Methods client and server have in common. If the client does not send the ``did_methods`` extension the server MUST select a list of DID Methods it supports. A client that processes the the ``CertificateRequest`` message that does not own a DID compatible with the DID Methods selected by the server MUST send a ``Certificate`` message containing no certificates, i.e. with the ``certificate_list`` field having length 0.
+The server sends the ``CertificateRequest`` message to request client authentication. It MUST include the ``did_methods`` extension if it indicates ``VC`` in the ``client_certificate_type`` extension. If the ``ClientHello`` contains the ``did_methods`` extension, the server MUST send a list of DID Methods client and server have in common. If the client does not send the ``did_methods`` extension the server MUST select a list of DID Methods it supports. A client that processes the ``CertificateRequest`` message that does not own a DID compatible with the DID Methods selected by the server MUST send a ``Certificate`` message containing no certificates, i.e. with the ``certificate_list`` field having length 0.
 
 ## Certificate message
 
@@ -351,14 +349,9 @@ Verifiable Credential
 
 <!--
 ## Renegotiation of DID Methods
-
-server sends an HRR when it does not have a DID compatible with the list of DID Methods sent by the client.
 -->
 
 # Security Considerations
-
-<!-- We should discuss about the different suite of signature algorithms among W3C and TLS 1.3 -->
-<!-- We should discuss or include references to revocation processes -->
 
 All the security considerations presented in {{!RFC8446}} applies to this document as well.
 Further considerations can be made on the DID resolution process. Assuming that a DID resolution is performed in clear, a man-in-the-middle could impersonate the DLT node, forge a DID Document containing the authenticating endpoint's DID, associate it with a key pair that he owns, and then return it to the DID resolver. Thus, the attacker is able to compute a valid CertificateVerify message by possessing the long term private key. In practice, the man-in-the-middle attacker breaks in transit the immutability feature provided by the DLT, i.e. the RoT for the public keys.

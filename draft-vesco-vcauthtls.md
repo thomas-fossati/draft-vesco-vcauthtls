@@ -81,7 +81,7 @@ This document defines a new certificate type and extension for the exchange of V
 # Introduction
 
 The Self-Sovereign Identity (SSI) is a decentralised identity model that gives a node control over the data it uses to generate and prove its identity. SSI model relies on three fundamental elements: a distributed ledger as the Root of Trust (RoT) for public keys, Decentralized IDentifier {{!DID}}, and Verifiable Credential {{!VC}}. An SSI aware node builds his identity starting from generating the identity key pair (_sk_, _pk_). Then the node stores _pk_ in the distributed ledger of choice for other nodes to authenticate it.
-A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form _did:did-method-name:method-specific-id_ where _method-name_ is the name of the {{!DID}} Method used to interact with the distributed ledger and _method-specific-id_ is the pointer to the {{!DID}} Document that contains _pk_, stored in the distributed ledger.
+A node's DID is a pointer to the distributed ledger where other nodes can retrieve its _pk_. A DID is a Uniform Resource Identifier (URI) in the form ``did:did-method-name:method-specific-id`` where ``method-name`` is the name of the {{!DID}} Method used to interact with the distributed ledger and ``method-specific-id`` is the pointer to the {{!DID}} Document that contains _pk_, stored in the distributed ledger.
 After that, the node can request a VC from one of the Issuers available in the system. The VC contains the metadata to describe properties of the credential, the DID and the claims about the identity of the node and the signature of the Issuer.
 The combination of the key pair (_sk_, _pk_), the DID and at least one VC forms the identity compliant with the SSI model.
 A node requests access to services by presenting a Verfiable Presentation {{!VP}}. The VP is an envelop of the VC signed by the node holding the VC with its _sk_. The verifier authenticates the node checking the validity and authenticity of the VP and the inner VC before granting or denying access to the requesting node.
@@ -92,6 +92,7 @@ SSI is emerging as an identity option for Internet of Thing and Edge nodes in co
 This document describes the extensions to TLS handshake protocol to support the use of VCs for authentication while preserving the interoperability with TLS endpoints that use X.509 certificates.
 The extensions enable server and mutual authentication using VC, X.509, Raw Public Key or a combination of two of them. The ability to perform hybrid authenticated handshakes supports the gradual deployment of SSI in existing systems. Moreover, the extension allows TLS endpoints to use different distributed ledger technologies to store their public keys and to authenticate the peer. The authentication process is successful if the TLS endpoints implement the DID Method to resolve the peer's DID.
 
+This document uses _italic formatting_ in the following sections to mark some paragraphs discussing items still under design: [](#serverhello-message) and [](#certificate-message).
 
 # Conventions and Definitions
 
@@ -216,7 +217,10 @@ When the server receives the ``ClientHello`` message containing the ``server_cer
 - The server does not support the extensions, omits them in ``EncryptedExtensions`` and the handshake proceeds with X.509 certificate(s).
 - The server does not support any of the proposed certificate types and terminates the session with a fatal alert of type ``unsupported_certificate``.
 - Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the client did not send the ``did_methods`` extension in addition to the ``server_certificate_type`` extension. The server MUST terminate the session with a fatal alert of type ``missing_extension``.
-- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the ``did_methods`` extension in the ``ClientHello`` message. The server terminates the session.
+- Both client and server indicate support for the ``VC`` certificate type. The server selects ``VC`` certificate type, but the server's DID is not compatible with any of the DID Methods supported by the client and listed in the ``did_methods`` extension sent with the ``ClientHello`` message. _This document defines two possible server behaviours (a) the server terminates the session with a fatal alert of type ``unsupported_did_methods``, (b) the server sends a HelloRetryRequest (HRR) message with a new extension listing the DLTs in which it owns a DID_.
+
+_These design considerations apply: solution (a) requires defining a new fatal alert message type, and the client has no clues to perform a new successful TLS handshake; solution (b) requires defining a new HRR extension which could have privacy implications as it discloses the DLTs where the server owns its DIDs; on the other hand, this extension provides the client with clues to retry a successful new TLS handshake_.
+
 - Both client and server indicate support for the ``VC`` certificate type, the server MAY select the first (most preferred) certificate type from the client's list that is supported by both endpoints. It MAY include the ``client_certificate_type`` in the ``EncryptedExtensions`` message to request a certificate from the client. In case the server selects ``VC`` certificate type, it MUST also send the ``did_methods`` extension in the ``CertificateRequest`` message.
 
 ## CertificateRequest message
@@ -225,11 +229,11 @@ The server sends the ``CertificateRequest`` message to request client authentica
 
 ## Certificate message
 
-When the selected certificate type is ``VC``, the ``certificate_list`` in the ``Certificate`` message MUST contain no more than one ``CertificateEntry`` with the content of the endpoint's Verifiable Credential. The content of the Verifiable Credential SHOULD be CBOR encoded. After decoding, the endpoint MUST follows the procedure in [VC](https://www.w3.org/TR/vc-data-model-2.0/) to verify the Verifiable Credential.
+When the selected certificate type is ``VC``, the ``certificate_list`` in the ``Certificate`` message MUST contain no more than one ``CertificateEntry`` with the content of the endpoint's Verifiable Credential. _This document propose to mandate CBOR encoding for the Verifiable Credential_. After decoding, the endpoint MUST follows the procedure in [VC](https://www.w3.org/TR/vc-data-model-2.0/) to verify the Verifiable Credential.
 
 ## CertificateVerify message
 
-As discussed in [Introduction](#introduction), an Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes. During the TLS handshake, when the selected certificate type is ``VC``, the subsequent ``CertificateVerify`` message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the ``Certificate`` message.
+As discussed in [](#introduction), an Holder wraps its own Verifiable Credential into a Verifiable Presentation and signs it before presenting it to a Verifier for authentication purposes. During the TLS handshake, when the selected certificate type is ``VC``, the subsequent ``CertificateVerify`` message acts also as the Holder signature on the Verifiable Presentation. In fact, the signature is computed over the transcript hash that contains also the Verifiable Credential of the sender inside the ``Certificate`` message.
 
 
 # TLS handshake Examples
